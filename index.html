@@ -190,11 +190,59 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 /* Glow effects */
 .glow-green{text-shadow:0 0 10px rgba(0,255,65,.5)}
 .glow-box{box-shadow:0 0 20px rgba(0,255,65,.1)}
+
+/* Matrix rain canvas */
+#matrix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.07;pointer-events:none}
+
+/* Glitch text */
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;-webkit-background-clip:text;background-clip:text}
+.glitch::before{left:2px;text-shadow:-2px 0 var(--red);animation:glitch1 2s infinite linear alternate-reverse;clip-path:polygon(0 0,100% 0,100% 35%,0 35%)}
+.glitch::after{left:-2px;text-shadow:2px 0 var(--cyan);animation:glitch2 3s infinite linear alternate-reverse;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%)}
+@keyframes glitch1{0%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}100%{transform:translate(0)}}
+@keyframes glitch2{0%{transform:translate(0)}25%{transform:translate(2px,1px)}50%{transform:translate(-1px,-2px)}75%{transform:translate(1px,2px)}100%{transform:translate(0)}}
+
+/* Fade-in on scroll */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Stagger children */
+.stagger .reveal:nth-child(1){transition-delay:.1s}
+.stagger .reveal:nth-child(2){transition-delay:.2s}
+.stagger .reveal:nth-child(3){transition-delay:.3s}
+.stagger .reveal:nth-child(4){transition-delay:.4s}
+
+/* Floating particles */
+.particle{position:fixed;pointer-events:none;z-index:0;width:2px;height:2px;background:var(--green);border-radius:50%;opacity:0;animation:float-up linear infinite}
+@keyframes float-up{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.6}90%{opacity:.6}100%{opacity:0;transform:translateY(-10vh) scale(1)}}
+
+/* Pulsing border on stat cards */
+.stat-card{animation:border-pulse 3s ease-in-out infinite}
+@keyframes border-pulse{0%,100%{border-color:var(--border)}50%{border-color:rgba(0,255,65,.3)}}
+
+/* Terminal typing effect */
+.terminal-line{opacity:0;animation:term-appear .3s forwards}
+@keyframes term-appear{to{opacity:1}}
+
+/* Hover glow on cards */
+.db-card:hover,.mw-card:hover,.case-card:hover{box-shadow:0 0 30px rgba(0,255,65,.08)}
+
+/* Nav glow line */
+nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.3}
+
+/* Cyber corner decorations */
+.cyber-corner{position:relative}
+.cyber-corner::before{content:'';position:absolute;top:0;left:0;width:20px;height:20px;border-top:2px solid var(--green);border-left:2px solid var(--green);opacity:.5}
+.cyber-corner::after{content:'';position:absolute;bottom:0;right:0;width:20px;height:20px;border-bottom:2px solid var(--green);border-right:2px solid var(--green);opacity:.5}
+
+/* Hex pattern */
+.hex-bg{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300ff41' fill-opacity='0.02'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 </style>
 </head>
 <body>
 
-<div class="grid-bg"></div>
+<canvas id="matrix-canvas"></canvas>
+<div class="grid-bg hex-bg"></div>
 
 <nav>
 <div class="nav-inner">
@@ -216,10 +264,10 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <section class="hero">
 <div class="container">
 <div class="hero-tag"><div class="hero-dot"></div> Tracking 3 live C2 databases</div>
-<h1>We trace the scammers<br>they can't trace us</h1>
+<h1><span class="glitch" data-text="We trace the scammers">We trace the scammers</span><br><span class="glitch" data-text="they can't trace us">they can't trace us</span></h1>
 <p class="hero-sub">Cyber fraud forensic intelligence. I find victims in live scam databases, trace the operators, and build evidence that holds up in court.</p>
 
-<div class="hero-terminal glow-box">
+<div class="hero-terminal glow-box cyber-corner">
 <div class="terminal-header">
 <div class="terminal-dot" style="background:#ff5f57"></div>
 <div class="terminal-dot" style="background:#ffbd2e"></div>
@@ -243,20 +291,20 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 
 <section class="stats-section">
 <div class="container">
-<div class="stats-grid">
-<div class="stat-card">
+<div class="stats-grid stagger">
+<div class="stat-card reveal">
 <div class="stat-num" id="counter1">873</div>
 <div class="stat-label">Victims identified</div>
 </div>
-<div class="stat-card">
+<div class="stat-card reveal">
 <div class="stat-num" style="color:var(--red)">167</div>
 <div class="stat-label">Cards stolen</div>
 </div>
-<div class="stat-card">
+<div class="stat-card reveal">
 <div class="stat-num" style="color:var(--cyan)">92K+</div>
 <div class="stat-label">SMS intercepted</div>
 </div>
-<div class="stat-card">
+<div class="stat-card reveal">
 <div class="stat-num" style="color:var(--amber)">8</div>
 <div class="stat-label">Malware variants</div>
 </div>
@@ -271,7 +319,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="section-title">C2 databases under surveillance</div>
 </div>
 <div class="db-grid">
-<div class="db-card live">
+<div class="db-card live reveal cyber-corner">
 <div class="db-icon green"><i class="ti ti-flame"></i></div>
 <div class="db-name">Gas bill phishing platform</div>
 <div class="db-desc">Firebase-backed phishing operation stealing card details and bank credentials through fake gas bill payment pages. 10 campaigns, Telegram C2 exfiltration.</div>
@@ -282,7 +330,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="db-stat"><span>167</span> cards</div>
 </div>
 </div>
-<div class="db-card live">
+<div class="db-card live reveal cyber-corner">
 <div class="db-icon cyan"><i class="ti ti-device-mobile"></i></div>
 <div class="db-name">Android RAT panel</div>
 <div class="db-desc">Remote access trojan dumping entire SMS history from infected phones. Call and SMS forwarding to operator. Full device takeover with WhatsApp hijacking.</div>
@@ -293,7 +341,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="db-stat"><span>92</span> OTPs</div>
 </div>
 </div>
-<div class="db-card live">
+<div class="db-card live reveal cyber-corner">
 <div class="db-icon red"><i class="ti ti-message-exclamation"></i></div>
 <div class="db-name">SMS harassment + RAT</div>
 <div class="db-desc">Active harassment and stalking platform combined with SMS interception. Last activity: 3 days ago. Intercepting PNB bank accounts and Jio OTPs.</div>
@@ -314,7 +362,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="section-title">Victim case studies</div>
 </div>
 
-<div class="case-card">
+<div class="case-card reveal">
 <div class="case-avatar crit">SP</div>
 <div>
 <div class="case-name">S.N. Patel</div>
@@ -329,7 +377,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="case-severity crit">CRITICAL</div>
 </div>
 
-<div class="case-card">
+<div class="case-card reveal">
 <div class="case-avatar crit">KJ</div>
 <div>
 <div class="case-name">K.J. Joshi</div>
@@ -344,7 +392,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="case-severity crit">CRITICAL</div>
 </div>
 
-<div class="case-card">
+<div class="case-card reveal">
 <div class="case-avatar crit">SK</div>
 <div>
 <div class="case-name">S. Kalia</div>
@@ -358,7 +406,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="case-severity crit">CRITICAL</div>
 </div>
 
-<div class="case-card">
+<div class="case-card reveal">
 <div class="case-avatar high">PV</div>
 <div>
 <div class="case-name">Panel victim [REDACTED]</div>
@@ -373,7 +421,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
 <div class="case-severity crit">CRITICAL</div>
 </div>
 
-<div class="case-card">
+<div class="case-card reveal">
 <div class="case-avatar high">NF</div>
 <div>
 <div class="case-name">N. Fazal</div>
@@ -562,6 +610,50 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 a.addEventListener('click',e=>{e.preventDefault();
 const t=document.querySelector(a.getAttribute('href'));
 if(t)t.scrollIntoView({behavior:'smooth'})})});
+
+// Matrix rain
+const mc=document.getElementById('matrix-canvas');
+const ctx=mc.getContext('2d');
+mc.width=window.innerWidth;mc.height=window.innerHeight;
+const chars='01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+const fontSize=14;const cols=Math.floor(mc.width/fontSize);
+const drops=Array(cols).fill(1);
+function drawMatrix(){
+ctx.fillStyle='rgba(10,10,15,.05)';ctx.fillRect(0,0,mc.width,mc.height);
+ctx.fillStyle='#00ff41';ctx.font=fontSize+'px monospace';
+for(let i=0;i<drops.length;i++){
+const t=chars[Math.floor(Math.random()*chars.length)];
+ctx.fillText(t,i*fontSize,drops[i]*fontSize);
+if(drops[i]*fontSize>mc.height&&Math.random()>.975)drops[i]=0;
+drops[i]++}}
+setInterval(drawMatrix,35);
+window.addEventListener('resize',()=>{mc.width=window.innerWidth;mc.height=window.innerHeight});
+
+// Scroll reveal
+const revealObs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// Floating particles
+function createParticle(){
+const p=document.createElement('div');p.classList.add('particle');
+p.style.left=Math.random()*100+'%';
+p.style.animationDuration=(8+Math.random()*12)+'s';
+p.style.width=p.style.height=(1+Math.random()*2)+'px';
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),20000)}
+setInterval(createParticle,300);
+
+// Terminal typing effect
+const termLines=document.querySelectorAll('.terminal-body > div');
+termLines.forEach((line,i)=>{line.style.animationDelay=(i*.4)+'s'});
+termLines.forEach(l=>l.classList.add('terminal-line'));
+
+// Stat number hover effect
+document.querySelectorAll('.stat-num').forEach(el=>{
+el.addEventListener('mouseenter',()=>{el.style.textShadow='0 0 20px rgba(0,255,65,.8)';el.style.transform='scale(1.1)'});
+el.addEventListener('mouseleave',()=>{el.style.textShadow='none';el.style.transform='scale(1)'});
+el.style.transition='text-shadow .3s,transform .3s'});
 </script>
 
 </body>
