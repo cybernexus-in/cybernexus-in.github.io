@@ -6,243 +6,239 @@
 <title>CyberTrace Forensics | Nevin Paul</title>
 <meta name="description" content="Cyber fraud forensic intelligence. We trace scammers, recover evidence, and build court-ready cases.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/tabler-icons.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#0a0a0f;
---bg2:#0f0f17;
---bg3:#14141f;
---card:#1a1a28;
---border:#2a2a3a;
---green:#00ff41;
---green-dim:#00cc33;
---green-dark:#003d0f;
---green-glow:rgba(0,255,65,.15);
---cyan:#00d4ff;
---cyan-dim:#0099bb;
---red:#ff3355;
---red-dim:#cc2244;
---amber:#ffaa00;
---text:#e0e0e8;
---text2:#8888a0;
---text3:#555570;
+--bg:#09090b;
+--bg2:#0c0c10;
+--bg3:#111116;
+--surface:rgba(255,255,255,.03);
+--surface2:rgba(255,255,255,.05);
+--surface3:rgba(255,255,255,.08);
+--glass:rgba(255,255,255,.04);
+--glass-border:rgba(255,255,255,.08);
+--cyan:#06b6d4;
+--cyan-soft:rgba(6,182,212,.15);
+--violet:#8b5cf6;
+--violet-soft:rgba(139,92,246,.15);
+--emerald:#10b981;
+--emerald-soft:rgba(16,185,129,.15);
+--rose:#f43f5e;
+--rose-soft:rgba(244,63,94,.15);
+--amber:#f59e0b;
+--amber-soft:rgba(245,158,11,.15);
+--text:#fafafa;
+--text2:#a1a1aa;
+--text3:#52525b;
 --mono:'JetBrains Mono',monospace;
 --sans:'Inter',system-ui,sans-serif;
+--radius:16px;
+--radius-sm:10px;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
-::selection{background:var(--green);color:var(--bg)}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--violet);color:#fff}
 
-/* Scanline overlay */
-body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;
-background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px)}
+.container{max-width:1120px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
 
-/* Grid background */
-.grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;
-background-image:linear-gradient(rgba(0,255,65,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,.03) 1px,transparent 1px);
-background-size:50px 50px}
-
-.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-
-/* NAV */
-nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(20px);background:rgba(10,10,15,.85);border-bottom:1px solid var(--border)}
-.nav-inner{max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-icon{width:32px;height:32px;border:2px solid var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:16px}
-.nav-logo-text{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--green);letter-spacing:1px}
-.nav-links{display:flex;gap:24px}
-.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-family:var(--mono);transition:color .2s}
-.nav-links a:hover{color:var(--green)}
-
-/* HERO */
-.hero{padding:140px 0 80px;text-align:center;position:relative}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--green);border:1px solid rgba(0,255,65,.3);padding:6px 16px;border-radius:20px;margin-bottom:24px;background:rgba(0,255,65,.05)}
-.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.hero h1{font-size:48px;font-weight:700;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,var(--green) 50%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:18px;color:var(--text2);max-width:600px;margin:0 auto 32px}
-.hero-terminal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;max-width:650px;margin:0 auto;text-align:left;overflow:hidden}
-.terminal-header{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg3)}
-.terminal-dot{width:10px;height:10px;border-radius:50%}
-.terminal-body{padding:16px 20px;font-family:var(--mono);font-size:13px;line-height:1.8}
-.t-prompt{color:var(--green)}
-.t-cmd{color:#fff}
-.t-output{color:var(--text2)}
-.t-danger{color:var(--red)}
-.t-warn{color:var(--amber)}
-.t-info{color:var(--cyan)}
-
-/* STATS */
-.stats-section{padding:60px 0}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
-.stat-card:hover{border-color:var(--green);transform:translateY(-2px)}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:0;transition:opacity .3s}
-.stat-card:hover::before{opacity:1}
-.stat-num{font-family:var(--mono);font-size:36px;font-weight:700;color:var(--green);line-height:1}
-.stat-label{font-size:12px;color:var(--text2);margin-top:8px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px}
-
-/* SECTION HEADERS */
-.section-header{text-align:center;margin-bottom:48px}
-.section-tag{font-family:var(--mono);font-size:12px;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
-.section-title{font-size:32px;font-weight:600;color:#fff}
-
-/* DATABASES */
-.db-section{padding:80px 0}
-.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.db-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;position:relative;transition:border-color .3s}
-.db-card:hover{border-color:var(--cyan)}
-.db-card.live::after{content:'LIVE';position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:10px;color:var(--red);border:1px solid var(--red);padding:2px 8px;border-radius:4px;animation:blink 2s infinite}
-.db-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
-.db-icon.green{background:rgba(0,255,65,.1);color:var(--green);border:1px solid rgba(0,255,65,.2)}
-.db-icon.cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
-.db-icon.red{background:rgba(255,51,85,.1);color:var(--red);border:1px solid rgba(255,51,85,.2)}
-.db-name{font-size:16px;font-weight:600;color:#fff;margin-bottom:4px}
-.db-desc{font-size:13px;color:var(--text2);margin-bottom:16px}
-.db-stats{display:flex;flex-wrap:wrap;gap:8px}
-.db-stat{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--bg2);padding:4px 10px;border-radius:4px}
-.db-stat span{color:var(--green);font-weight:600}
-
-/* CASE STUDIES */
-.cases-section{padding:80px 0}
-.case-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin-bottom:16px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;transition:border-color .3s}
-.case-card:hover{border-color:var(--green)}
-.case-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:14px}
-.case-avatar.crit{background:rgba(255,51,85,.15);color:var(--red);border:1px solid rgba(255,51,85,.3)}
-.case-avatar.high{background:rgba(255,170,0,.15);color:var(--amber);border:1px solid rgba(255,170,0,.3)}
-.case-name{font-size:15px;font-weight:500;color:#fff}
-.case-detail{font-size:12px;color:var(--text2);margin-top:4px}
-.case-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.case-tag{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px}
-.case-tag.red{background:rgba(255,51,85,.1);color:var(--red);border:1px solid rgba(255,51,85,.2)}
-.case-tag.amber{background:rgba(255,170,0,.1);color:var(--amber);border:1px solid rgba(255,170,0,.2)}
-.case-tag.cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
-.case-severity{font-family:var(--mono);font-size:11px;font-weight:600;padding:4px 12px;border-radius:6px}
-.case-severity.crit{background:rgba(255,51,85,.15);color:var(--red);border:1px solid rgba(255,51,85,.3)}
-.case-severity.high{background:rgba(255,170,0,.15);color:var(--amber);border:1px solid rgba(255,170,0,.3)}
-
-/* MALWARE */
-.malware-section{padding:80px 0}
-.mw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.mw-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;transition:border-color .3s}
-.mw-card:hover{border-color:var(--red)}
-.mw-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.2);display:flex;align-items:center;justify-content:center;color:var(--red);font-size:18px;flex-shrink:0}
-.mw-name{font-size:14px;font-weight:500;color:#fff}
-.mw-desc{font-size:11px;color:var(--text2);margin-top:2px}
-
-/* SCAMMER NETWORK */
-.network-section{padding:80px 0}
-.net-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.net-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
-.net-title{font-family:var(--mono);font-size:12px;color:var(--green);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
-.net-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(42,42,58,.5);font-size:13px}
-.net-item:last-child{border-bottom:none}
-.net-num{font-family:var(--mono);color:#fff;font-weight:500}
-.net-tag{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px}
-.net-tag.phone{background:rgba(255,170,0,.1);color:var(--amber);border:1px solid rgba(255,170,0,.2)}
-.net-tag.tg{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
-.net-tag.geo{background:rgba(0,255,65,.1);color:var(--green);border:1px solid rgba(0,255,65,.2)}
-
-/* ABOUT */
-.about-section{padding:80px 0}
-.about-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:40px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
-.about-photo{width:100px;height:100px;border-radius:50%;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:32px;font-weight:700;color:var(--green);background:rgba(0,255,65,.05)}
-.about-name{font-size:22px;font-weight:600;color:#fff;margin-bottom:4px}
-.about-role{font-size:14px;color:var(--green);font-family:var(--mono);margin-bottom:12px}
-.about-text{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:16px}
-.about-skills{display:flex;flex-wrap:wrap;gap:8px}
-.about-skill{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--bg2);border:1px solid var(--border);padding:4px 12px;border-radius:4px}
-
-/* CTA */
-.cta-section{padding:80px 0;text-align:center}
-.cta-box{background:linear-gradient(135deg,rgba(0,255,65,.05),rgba(0,212,255,.05));border:1px solid var(--border);border-radius:16px;padding:48px 40px}
-.cta-title{font-size:28px;font-weight:600;color:#fff;margin-bottom:8px}
-.cta-sub{font-size:15px;color:var(--text2);margin-bottom:24px}
-.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:var(--bg);font-family:var(--mono);font-weight:600;font-size:14px;padding:12px 28px;border-radius:8px;text-decoration:none;transition:transform .2s,box-shadow .2s}
-.cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,255,65,.3)}
-.cta-links{margin-top:16px;display:flex;justify-content:center;gap:24px}
-.cta-link{color:var(--text2);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;transition:color .2s}
-.cta-link:hover{color:var(--green)}
-
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:24px 0;text-align:center}
-.footer-text{font-family:var(--mono);font-size:11px;color:var(--text3)}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-.stats-grid{grid-template-columns:repeat(2,1fr)}
-.db-grid{grid-template-columns:1fr}
-.net-grid{grid-template-columns:1fr}
-.mw-grid{grid-template-columns:1fr}
-.about-card{grid-template-columns:1fr;text-align:center;justify-items:center}
-.case-card{grid-template-columns:1fr;text-align:center;justify-items:center}
-.hero h1{font-size:32px}
-.nav-links{display:none}
+/* Aurora background */
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.12;animation:aurora-drift 20s ease-in-out infinite alternate}
+.aurora-blob:nth-child(1){width:600px;height:600px;background:var(--cyan);top:-200px;left:-100px;animation-delay:0s}
+.aurora-blob:nth-child(2){width:500px;height:500px;background:var(--violet);top:30%;right:-150px;animation-delay:-5s;animation-duration:25s}
+.aurora-blob:nth-child(3){width:400px;height:400px;background:var(--emerald);bottom:-100px;left:30%;animation-delay:-10s;animation-duration:22s}
+@keyframes aurora-drift{
+0%{transform:translate(0,0) scale(1)}
+33%{transform:translate(40px,-30px) scale(1.1)}
+66%{transform:translate(-30px,40px) scale(.95)}
+100%{transform:translate(20px,-20px) scale(1.05)}
 }
 
-/* Typing animation */
-.typing{overflow:hidden;white-space:nowrap;border-right:2px solid var(--green);animation:typing 3s steps(40,end),cursor .5s step-end infinite alternate}
-@keyframes typing{from{width:0}to{width:100%}}
-@keyframes cursor{50%{border-color:transparent}}
+/* Subtle dot grid */
+.dot-grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;
+background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);
+background-size:32px 32px}
 
-/* Glow effects */
-.glow-green{text-shadow:0 0 10px rgba(0,255,65,.5)}
-.glow-box{box-shadow:0 0 20px rgba(0,255,65,.1)}
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);background:rgba(9,9,11,.7);border-bottom:1px solid var(--glass-border);transition:all .3s}
+.nav-inner{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff}
+.nav-logo-text{font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:1.5px;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:28px}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;transition:color .3s}
+.nav-links a:hover{color:var(--text)}
+.nav-mobile{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
 
-/* Matrix rain canvas */
-#matrix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.07;pointer-events:none}
+/* HERO */
+.hero{padding:160px 0 100px;position:relative}
+.hero-content{max-width:720px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--cyan);border:1px solid var(--cyan-soft);padding:6px 16px;border-radius:100px;margin-bottom:28px;background:rgba(6,182,212,.06);backdrop-filter:blur(10px)}
+.hero-pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero h1{font-size:clamp(36px,5.5vw,60px);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin-bottom:20px}
+.hero h1 .gradient{background:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 50%,var(--emerald) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:40px}
 
-/* Glitch text */
-.glitch{position:relative;display:inline-block}
-.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;-webkit-background-clip:text;background-clip:text}
-.glitch::before{left:2px;text-shadow:-2px 0 var(--red);animation:glitch1 2s infinite linear alternate-reverse;clip-path:polygon(0 0,100% 0,100% 35%,0 35%)}
-.glitch::after{left:-2px;text-shadow:2px 0 var(--cyan);animation:glitch2 3s infinite linear alternate-reverse;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%)}
-@keyframes glitch1{0%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}100%{transform:translate(0)}}
-@keyframes glitch2{0%{transform:translate(0)}25%{transform:translate(2px,1px)}50%{transform:translate(-1px,-2px)}75%{transform:translate(1px,2px)}100%{transform:translate(0)}}
+.hero-terminal{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(20px);max-width:680px;box-shadow:0 20px 60px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05)}
+.terminal-header{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--glass-border);background:rgba(255,255,255,.02)}
+.terminal-dots{display:flex;gap:6px}
+.terminal-dot{width:10px;height:10px;border-radius:50%}
+.terminal-title{font-family:var(--mono);font-size:11px;color:var(--text3);margin-left:8px}
+.terminal-body{padding:18px 22px;font-family:var(--mono);font-size:12.5px;line-height:2}
+.t-prompt{color:var(--cyan)}
+.t-cmd{color:var(--text)}
+.t-out{color:var(--text2)}
+.t-danger{color:var(--rose)}
+.t-warn{color:var(--amber)}
+.t-info{color:var(--cyan)}
+.t-ok{color:var(--emerald)}
 
-/* Fade-in on scroll */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+/* SECTION SHARED */
+section{padding:100px 0}
+.section-header{margin-bottom:56px}
+.section-label{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--violet);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.section-title{font-size:clamp(26px,3.5vw,36px);font-weight:700;letter-spacing:-.02em;color:var(--text)}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px 24px;text-align:center;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.06),transparent 70%);opacity:0;transition:opacity .4s}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.15)}
+.stat-card:hover::before{opacity:1}
+.stat-num{font-family:var(--mono);font-size:38px;font-weight:700;line-height:1}
+.stat-num.cyan{color:var(--cyan)}
+.stat-num.rose{color:var(--rose)}
+.stat-num.violet{color:var(--violet)}
+.stat-num.amber{color:var(--amber)}
+.stat-label{font-size:12px;color:var(--text2);margin-top:10px;font-weight:500;text-transform:uppercase;letter-spacing:1px}
+
+/* DATABASES */
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.db-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.db-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.12);box-shadow:0 16px 48px rgba(0,0,0,.2)}
+.db-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.db-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.db-icon.i-cyan{background:var(--cyan-soft);color:var(--cyan)}
+.db-icon.i-violet{background:var(--violet-soft);color:var(--violet)}
+.db-icon.i-rose{background:var(--rose-soft);color:var(--rose)}
+.live-badge{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--rose);padding:3px 10px;border-radius:100px;background:var(--rose-soft);border:1px solid rgba(244,63,94,.2)}
+.live-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--rose);animation:pulse 2s infinite}
+.db-name{font-size:16px;font-weight:600;margin-bottom:6px}
+.db-desc{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.6}
+.db-stats{display:flex;flex-wrap:wrap;gap:8px}
+.db-stat{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--surface2);padding:5px 12px;border-radius:8px}
+.db-stat span{color:var(--text);font-weight:600}
+
+/* CASES */
+.case-list{display:flex;flex-direction:column;gap:12px}
+.case-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1)}
+.case-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
+.case-avatar{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:14px}
+.case-avatar.av-rose{background:var(--rose-soft);color:var(--rose)}
+.case-avatar.av-amber{background:var(--amber-soft);color:var(--amber)}
+.case-name{font-size:15px;font-weight:600}
+.case-detail{font-size:12px;color:var(--text2);margin-top:4px}
+.case-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.case-tag{font-family:var(--mono);font-size:10px;font-weight:500;padding:3px 10px;border-radius:6px}
+.case-tag.t-rose{background:var(--rose-soft);color:var(--rose)}
+.case-tag.t-amber{background:var(--amber-soft);color:var(--amber)}
+.case-tag.t-cyan{background:var(--cyan-soft);color:var(--cyan)}
+.case-severity{font-family:var(--mono);font-size:11px;font-weight:600;padding:5px 14px;border-radius:8px;white-space:nowrap}
+.case-severity.s-crit{background:var(--rose-soft);color:var(--rose)}
+.case-severity.s-high{background:var(--amber-soft);color:var(--amber)}
+
+/* NETWORK */
+.net-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.net-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px;backdrop-filter:blur(10px)}
+.net-title{font-family:var(--mono);font-size:12px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.net-title .icon{font-size:16px}
+.net-title.t-amber{color:var(--amber)}
+.net-title.t-cyan{color:var(--cyan)}
+.net-title.t-emerald{color:var(--emerald)}
+.net-title.t-violet{color:var(--violet)}
+.net-item{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px}
+.net-item:last-child{border-bottom:none}
+.net-num{font-family:var(--mono);font-weight:500}
+.net-tag{font-family:var(--mono);font-size:10px;font-weight:500;padding:3px 10px;border-radius:6px}
+.net-tag.g-amber{background:var(--amber-soft);color:var(--amber)}
+.net-tag.g-cyan{background:var(--cyan-soft);color:var(--cyan)}
+.net-tag.g-emerald{background:var(--emerald-soft);color:var(--emerald)}
+.net-region{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:14px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius-sm)}
+
+/* MALWARE */
+.mw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.mw-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:18px 22px;display:flex;align-items:center;gap:16px;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.mw-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
+.mw-icon{width:40px;height:40px;border-radius:10px;background:var(--rose-soft);display:flex;align-items:center;justify-content:center;color:var(--rose);font-size:19px;flex-shrink:0}
+.mw-name{font-size:14px;font-weight:600}
+.mw-desc{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.5}
+
+/* ABOUT */
+.about-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:44px;display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;backdrop-filter:blur(10px)}
+.about-photo{width:110px;height:110px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--cyan-soft),var(--violet-soft));color:var(--text);border:1px solid var(--glass-border)}
+.about-name{font-size:24px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
+.about-role{font-size:13px;font-weight:500;margin-bottom:14px;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:var(--mono)}
+.about-text{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:14px}
+.about-skills{display:flex;flex-wrap:wrap;gap:8px}
+.about-skill{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--glass-border);padding:5px 14px;border-radius:8px;transition:all .3s}
+.about-skill:hover{color:var(--text);border-color:rgba(255,255,255,.15)}
+
+/* CTA */
+.cta-section{text-align:center}
+.cta-box{background:var(--surface);border:1px solid var(--glass-border);border-radius:20px;padding:56px 48px;backdrop-filter:blur(20px);position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--violet-soft),transparent 60%);pointer-events:none}
+.cta-title{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px;position:relative}
+.cta-sub{font-size:15px;color:var(--text2);margin-bottom:28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 32px;border-radius:12px;text-decoration:none;transition:all .3s;position:relative;box-shadow:0 4px 20px rgba(139,92,246,.25)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,.35)}
+.cta-links{margin-top:20px;display:flex;justify-content:center;gap:28px;position:relative}
+.cta-link{color:var(--text2);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;transition:color .3s}
+.cta-link:hover{color:var(--text)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--glass-border);padding:28px 0;text-align:center;position:relative;z-index:2}
+.footer-text{font-family:var(--mono);font-size:11px;color:var(--text3)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
+.stagger>.reveal:nth-child(1){transition-delay:.05s}
+.stagger>.reveal:nth-child(2){transition-delay:.1s}
+.stagger>.reveal:nth-child(3){transition-delay:.15s}
+.stagger>.reveal:nth-child(4){transition-delay:.2s}
+.stagger>.reveal:nth-child(5){transition-delay:.25s}
 
-/* Stagger children */
-.stagger .reveal:nth-child(1){transition-delay:.1s}
-.stagger .reveal:nth-child(2){transition-delay:.2s}
-.stagger .reveal:nth-child(3){transition-delay:.3s}
-.stagger .reveal:nth-child(4){transition-delay:.4s}
-
-/* Floating particles */
-.particle{position:fixed;pointer-events:none;z-index:0;width:2px;height:2px;background:var(--green);border-radius:50%;opacity:0;animation:float-up linear infinite}
-@keyframes float-up{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.6}90%{opacity:.6}100%{opacity:0;transform:translateY(-10vh) scale(1)}}
-
-/* Pulsing border on stat cards */
-.stat-card{animation:border-pulse 3s ease-in-out infinite}
-@keyframes border-pulse{0%,100%{border-color:var(--border)}50%{border-color:rgba(0,255,65,.3)}}
-
-/* Terminal typing effect */
-.terminal-line{opacity:0;animation:term-appear .3s forwards}
-@keyframes term-appear{to{opacity:1}}
-
-/* Hover glow on cards */
-.db-card:hover,.mw-card:hover,.case-card:hover{box-shadow:0 0 30px rgba(0,255,65,.08)}
-
-/* Nav glow line */
-nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.3}
-
-/* Cyber corner decorations */
-.cyber-corner{position:relative}
-.cyber-corner::before{content:'';position:absolute;top:0;left:0;width:20px;height:20px;border-top:2px solid var(--green);border-left:2px solid var(--green);opacity:.5}
-.cyber-corner::after{content:'';position:absolute;bottom:0;right:0;width:20px;height:20px;border-bottom:2px solid var(--green);border-right:2px solid var(--green);opacity:.5}
-
-/* Hex pattern */
-.hex-bg{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300ff41' fill-opacity='0.02'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+/* RESPONSIVE */
+@media(max-width:900px){
+.db-grid{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:repeat(2,1fr)}
+.net-grid{grid-template-columns:1fr}
+.mw-grid{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+.hero{padding:120px 0 60px}
+.hero h1{font-size:32px}
+.about-card{grid-template-columns:1fr;text-align:center;justify-items:center}
+.case-card{grid-template-columns:1fr;text-align:center;justify-items:center;gap:12px}
+.nav-links{display:none}
+.nav-mobile{display:block}
+.about-skills{justify-content:center}
+.case-tags{justify-content:center}
+section{padding:60px 0}
+}
 </style>
 </head>
 <body>
 
-<canvas id="matrix-canvas"></canvas>
-<div class="grid-bg hex-bg"></div>
+<div class="aurora">
+<div class="aurora-blob"></div>
+<div class="aurora-blob"></div>
+<div class="aurora-blob"></div>
+</div>
+<div class="dot-grid"></div>
 
 <nav>
 <div class="nav-inner">
@@ -258,32 +254,37 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 <a href="#about">About</a>
 <a href="#contact">Contact</a>
 </div>
+<button class="nav-mobile" id="nav-toggle"><i class="ti ti-menu-2"></i></button>
 </div>
 </nav>
 
 <section class="hero">
 <div class="container">
-<div class="hero-tag"><div class="hero-dot"></div> Tracking 3 live C2 databases</div>
-<h1><span class="glitch" data-text="We trace the scammers">We trace the scammers</span><br><span class="glitch" data-text="they can't trace us">they can't trace us</span></h1>
-<p class="hero-sub">Cyber fraud forensic intelligence. I find victims in live scam databases, trace the operators, and build evidence that holds up in court.</p>
+<div class="hero-content">
+<div class="hero-badge reveal"><div class="hero-pulse"></div> Tracking 3 live C2 databases</div>
+<h1 class="reveal"><span class="gradient">We trace the scammers</span><br>they can't trace us</h1>
+<p class="hero-sub reveal">Cyber fraud forensic intelligence. I find victims in live scam databases, trace the operators, and build evidence that holds up in court.</p>
+</div>
 
-<div class="hero-terminal glow-box cyber-corner">
+<div class="hero-terminal reveal">
 <div class="terminal-header">
+<div class="terminal-dots">
 <div class="terminal-dot" style="background:#ff5f57"></div>
-<div class="terminal-dot" style="background:#ffbd2e"></div>
+<div class="terminal-dot" style="background:#febc2e"></div>
 <div class="terminal-dot" style="background:#28c840"></div>
-<span style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-left:8px">cybertrace ~ forensics</span>
+</div>
+<span class="terminal-title">cybertrace ~ forensics</span>
 </div>
 <div class="terminal-body">
 <div><span class="t-prompt">$ </span><span class="t-cmd">cybertrace scan --target firebase-c2-panel</span></div>
-<div class="t-output">[+] Connected to 3 live C2 databases</div>
-<div class="t-output">[+] Scanning victims... <span class="t-danger">873 compromised devices found</span></div>
-<div class="t-output">[+] Credentials extracted: <span class="t-danger">167 stolen cards</span>, <span class="t-danger">22 bank logins</span></div>
-<div class="t-output">[+] Intercepted SMS: <span class="t-warn">92,000+ messages</span></div>
-<div class="t-output">[+] Scammer network mapped: <span class="t-info">18 phone numbers, 2 Telegram bots</span></div>
-<div class="t-output">[+] Geolocation: <span class="t-info">Patna, Bihar / Dhanbad, Jharkhand</span></div>
+<div class="t-out">[+] Connected to 3 live C2 databases</div>
+<div class="t-out">[+] Scanning victims... <span class="t-danger">873 compromised devices found</span></div>
+<div class="t-out">[+] Credentials extracted: <span class="t-danger">167 stolen cards</span>, <span class="t-danger">22 bank logins</span></div>
+<div class="t-out">[+] Intercepted SMS: <span class="t-warn">92,000+ messages</span></div>
+<div class="t-out">[+] Scammer network mapped: <span class="t-info">18 phone numbers, 2 Telegram bots</span></div>
+<div class="t-out">[+] Geolocation: <span class="t-info">Patna, Bihar / Dhanbad, Jharkhand</span></div>
 <div><span class="t-prompt">$ </span><span class="t-cmd">cybertrace report --format court-ready</span></div>
-<div class="t-output" style="color:var(--green)">[+] Evidence package generated. Ready for filing.</div>
+<div class="t-out"><span class="t-ok">[+] Evidence package generated. Ready for filing.</span></div>
 </div>
 </div>
 </div>
@@ -293,34 +294,37 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 <div class="container">
 <div class="stats-grid stagger">
 <div class="stat-card reveal">
-<div class="stat-num" id="counter1">873</div>
+<div class="stat-num cyan" data-target="873">0</div>
 <div class="stat-label">Victims identified</div>
 </div>
 <div class="stat-card reveal">
-<div class="stat-num" style="color:var(--red)">167</div>
+<div class="stat-num rose" data-target="167">0</div>
 <div class="stat-label">Cards stolen</div>
 </div>
 <div class="stat-card reveal">
-<div class="stat-num" style="color:var(--cyan)">92K+</div>
+<div class="stat-num violet">92K+</div>
 <div class="stat-label">SMS intercepted</div>
 </div>
 <div class="stat-card reveal">
-<div class="stat-num" style="color:var(--amber)">8</div>
+<div class="stat-num amber" data-target="8">0</div>
 <div class="stat-label">Malware variants</div>
 </div>
 </div>
 </div>
 </section>
 
-<section class="db-section" id="databases">
+<section id="databases">
 <div class="container">
 <div class="section-header">
-<div class="section-tag">// live intelligence</div>
-<div class="section-title">C2 databases under surveillance</div>
+<div class="section-label reveal">Live intelligence</div>
+<div class="section-title reveal">C2 databases under surveillance</div>
 </div>
-<div class="db-grid">
-<div class="db-card live reveal cyber-corner">
-<div class="db-icon green"><i class="ti ti-flame"></i></div>
+<div class="db-grid stagger">
+<div class="db-card reveal">
+<div class="db-card-head">
+<div class="db-icon i-cyan"><i class="ti ti-flame"></i></div>
+<div class="live-badge"><div class="live-badge-dot"></div> LIVE</div>
+</div>
 <div class="db-name">Gas bill phishing platform</div>
 <div class="db-desc">Firebase-backed phishing operation stealing card details and bank credentials through fake gas bill payment pages. 10 campaigns, Telegram C2 exfiltration.</div>
 <div class="db-stats">
@@ -330,8 +334,11 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 <div class="db-stat"><span>167</span> cards</div>
 </div>
 </div>
-<div class="db-card live reveal cyber-corner">
-<div class="db-icon cyan"><i class="ti ti-device-mobile"></i></div>
+<div class="db-card reveal">
+<div class="db-card-head">
+<div class="db-icon i-violet"><i class="ti ti-device-mobile"></i></div>
+<div class="live-badge"><div class="live-badge-dot"></div> LIVE</div>
+</div>
 <div class="db-name">Android RAT panel</div>
 <div class="db-desc">Remote access trojan dumping entire SMS history from infected phones. Call and SMS forwarding to operator. Full device takeover with WhatsApp hijacking.</div>
 <div class="db-stats">
@@ -341,8 +348,11 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 <div class="db-stat"><span>92</span> OTPs</div>
 </div>
 </div>
-<div class="db-card live reveal cyber-corner">
-<div class="db-icon red"><i class="ti ti-message-exclamation"></i></div>
+<div class="db-card reveal">
+<div class="db-card-head">
+<div class="db-icon i-rose"><i class="ti ti-message-exclamation"></i></div>
+<div class="live-badge"><div class="live-badge-dot"></div> LIVE</div>
+</div>
 <div class="db-name">SMS harassment + RAT</div>
 <div class="db-desc">Active harassment and stalking platform combined with SMS interception. Last activity: 3 days ago. Intercepting PNB bank accounts and Jio OTPs.</div>
 <div class="db-stats">
@@ -355,187 +365,185 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 </div>
 </section>
 
-<section class="cases-section" id="cases">
+<section id="cases">
 <div class="container">
 <div class="section-header">
-<div class="section-tag">// forensic analysis</div>
-<div class="section-title">Victim case studies</div>
+<div class="section-label reveal">Forensic analysis</div>
+<div class="section-title reveal">Victim case studies</div>
 </div>
-
+<div class="case-list stagger">
 <div class="case-card reveal">
-<div class="case-avatar crit">SP</div>
+<div class="case-avatar av-rose">SP</div>
 <div>
 <div class="case-name">S.N. Patel</div>
 <div class="case-detail">32 yo, Gujarat | 30 forms in 28 minutes | Digital banking compromised</div>
 <div class="case-tags">
-<span class="case-tag red">2 cards stolen</span>
-<span class="case-tag red">Net banking login</span>
-<span class="case-tag red">Transaction password</span>
-<span class="case-tag amber">Password reuse pattern</span>
+<span class="case-tag t-rose">2 cards stolen</span>
+<span class="case-tag t-rose">Net banking login</span>
+<span class="case-tag t-rose">Transaction password</span>
+<span class="case-tag t-amber">Password reuse pattern</span>
 </div>
 </div>
-<div class="case-severity crit">CRITICAL</div>
+<div class="case-severity s-crit">CRITICAL</div>
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar crit">KJ</div>
+<div class="case-avatar av-rose">KJ</div>
 <div>
 <div class="case-name">K.J. Joshi</div>
 <div class="case-detail">70 yo, Gujarat | 31 forms in 2h 42min | SBI internet banking</div>
 <div class="case-tags">
-<span class="case-tag red">3 cards stolen</span>
-<span class="case-tag red">SBI login exposed</span>
-<span class="case-tag amber">Family member's card</span>
-<span class="case-tag cyan">Rs 13 gas bill bait</span>
+<span class="case-tag t-rose">3 cards stolen</span>
+<span class="case-tag t-rose">SBI login exposed</span>
+<span class="case-tag t-amber">Family member's card</span>
+<span class="case-tag t-cyan">Rs 13 gas bill bait</span>
 </div>
 </div>
-<div class="case-severity crit">CRITICAL</div>
+<div class="case-severity s-crit">CRITICAL</div>
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar crit">SK</div>
+<div class="case-avatar av-rose">SK</div>
 <div>
 <div class="case-name">S. Kalia</div>
 <div class="case-detail">71 yo, Haryana | Retired pensioner | 12 OTPs intercepted</div>
 <div class="case-tags">
-<span class="case-tag red">2 cards stolen</span>
-<span class="case-tag red">OTP interception</span>
-<span class="case-tag amber">Investment fraud risk</span>
+<span class="case-tag t-rose">2 cards stolen</span>
+<span class="case-tag t-rose">OTP interception</span>
+<span class="case-tag t-amber">Investment fraud risk</span>
 </div>
 </div>
-<div class="case-severity crit">CRITICAL</div>
+<div class="case-severity s-crit">CRITICAL</div>
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar high">PV</div>
+<div class="case-avatar av-amber">PV</div>
 <div>
 <div class="case-name">Panel victim [REDACTED]</div>
 <div class="case-detail">RAT-compromised | 12,751 SMS over 3.5 years | Multiple bank accounts</div>
 <div class="case-tags">
-<span class="case-tag red">92 OTPs intercepted</span>
-<span class="case-tag red">Call forwarding active</span>
-<span class="case-tag amber">WhatsApp hijack x3</span>
-<span class="case-tag cyan">Gambling addiction</span>
+<span class="case-tag t-rose">92 OTPs intercepted</span>
+<span class="case-tag t-rose">Call forwarding active</span>
+<span class="case-tag t-amber">WhatsApp hijack x3</span>
+<span class="case-tag t-cyan">Gambling addiction</span>
 </div>
 </div>
-<div class="case-severity crit">CRITICAL</div>
+<div class="case-severity s-crit">CRITICAL</div>
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar high">NF</div>
+<div class="case-avatar av-amber">NF</div>
 <div>
 <div class="case-name">N. Fazal</div>
 <div class="case-detail">34 yo, Maharashtra | Card stolen + 22 SMS intercepted</div>
 <div class="case-tags">
-<span class="case-tag red">Card + CVV + PIN</span>
-<span class="case-tag amber">SMS forwarding</span>
+<span class="case-tag t-rose">Card + CVV + PIN</span>
+<span class="case-tag t-amber">SMS forwarding</span>
 </div>
 </div>
-<div class="case-severity high">HIGH</div>
+<div class="case-severity s-high">HIGH</div>
 </div>
-
-<div style="text-align:center;padding:20px;font-family:var(--mono);font-size:13px;color:var(--text3)">
-+ 35 more victims analyzed across all campaigns
 </div>
+<div style="text-align:center;padding:24px;font-family:var(--mono);font-size:13px;color:var(--text3)" class="reveal">+ 35 more victims analyzed across all campaigns</div>
 </div>
 </section>
 
-<section class="network-section" id="network">
+<section id="network">
 <div class="container">
 <div class="section-header">
-<div class="section-tag">// threat intelligence</div>
-<div class="section-title">Scammer network map</div>
+<div class="section-label reveal">Threat intelligence</div>
+<div class="section-title reveal">Scammer network map</div>
 </div>
 <div class="net-grid">
-<div class="net-card">
-<div class="net-title"><i class="ti ti-phone" style="margin-right:6px"></i> Operator phone numbers</div>
-<div class="net-item"><span class="net-num">+91 8271802279</span><span class="net-tag phone">Primary — 13+ victims</span></div>
-<div class="net-item"><span class="net-num">+91 9304866642</span><span class="net-tag phone">RAT operator</span></div>
-<div class="net-item"><span class="net-num">+91 9122426108</span><span class="net-tag phone">bill_72</span></div>
-<div class="net-item"><span class="net-num">+91 9296939701</span><span class="net-tag phone">bill_10</span></div>
-<div class="net-item"><span class="net-num">+91 9310883057</span><span class="net-tag phone">bill_36</span></div>
-<div class="net-item"><span class="net-num">+91 8822998190</span><span class="net-tag phone">bill_45</span></div>
-<div class="net-item"><span class="net-num">+91 9905178068</span><span class="net-tag phone">Operator</span></div>
-<div class="net-item"><span class="net-num">+91 9332519002</span><span class="net-tag phone">Operator</span></div>
+<div class="net-card reveal">
+<div class="net-title t-amber"><i class="ti ti-phone icon"></i> Operator phone numbers</div>
+<div class="net-item"><span class="net-num">+91 8271802279</span><span class="net-tag g-amber">Primary — 13+ victims</span></div>
+<div class="net-item"><span class="net-num">+91 9304866642</span><span class="net-tag g-amber">RAT operator</span></div>
+<div class="net-item"><span class="net-num">+91 9122426108</span><span class="net-tag g-amber">bill_72</span></div>
+<div class="net-item"><span class="net-num">+91 9296939701</span><span class="net-tag g-amber">bill_10</span></div>
+<div class="net-item"><span class="net-num">+91 9310883057</span><span class="net-tag g-amber">bill_36</span></div>
+<div class="net-item"><span class="net-num">+91 8822998190</span><span class="net-tag g-amber">bill_45</span></div>
+<div class="net-item"><span class="net-num">+91 9905178068</span><span class="net-tag g-amber">Operator</span></div>
+<div class="net-item"><span class="net-num">+91 9332519002</span><span class="net-tag g-amber">Operator</span></div>
 </div>
-<div class="net-card">
-<div class="net-title"><i class="ti ti-brand-telegram" style="margin-right:6px"></i> Digital identifiers</div>
-<div class="net-item"><span class="net-num">@lalu829298</span><span class="net-tag tg">Sonu Kumar</span></div>
-<div class="net-item"><span class="net-num">@Union_1209_bot</span><span class="net-tag tg">C2 exfil bot</span></div>
-<div class="net-item"><span class="net-num">ID: 8233836584</span><span class="net-tag tg">Telegram user</span></div>
-<div class="net-item"><span class="net-num">ID: 8582331009</span><span class="net-tag tg">Bot account</span></div>
-<div style="margin-top:16px">
-<div class="net-title"><i class="ti ti-map-pin" style="margin-right:6px"></i> Geolocation</div>
+<div class="net-card reveal">
+<div class="net-title t-cyan"><i class="ti ti-brand-telegram icon"></i> Digital identifiers</div>
+<div class="net-item"><span class="net-num">@lalu829298</span><span class="net-tag g-cyan">Sonu Kumar</span></div>
+<div class="net-item"><span class="net-num">@Union_1209_bot</span><span class="net-tag g-cyan">C2 exfil bot</span></div>
+<div class="net-item"><span class="net-num">ID: 8233836584</span><span class="net-tag g-cyan">Telegram user</span></div>
+<div class="net-item"><span class="net-num">ID: 8582331009</span><span class="net-tag g-cyan">Bot account</span></div>
+<div style="margin-top:18px">
+<div class="net-title t-emerald"><i class="ti ti-map-pin icon"></i> Geolocation</div>
 </div>
-<div class="net-item"><span class="net-num">152.59.154.120</span><span class="net-tag geo">Patna, Bihar</span></div>
-<div class="net-item"><span class="net-num">47.31.65.117</span><span class="net-tag geo">Dhanbad, Jharkhand</span></div>
-<div style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:12px;padding:8px;background:var(--bg2);border-radius:4px">Operating region: Bihar-Jharkhand corridor</div>
-<div style="margin-top:16px">
-<div class="net-title"><i class="ti ti-user-shield" style="margin-right:6px"></i> Panel operators</div>
+<div class="net-item"><span class="net-num">152.59.154.120</span><span class="net-tag g-emerald">Patna, Bihar</span></div>
+<div class="net-item"><span class="net-num">47.31.65.117</span><span class="net-tag g-emerald">Dhanbad, Jharkhand</span></div>
+<div class="net-region">Operating region: Bihar-Jharkhand corridor</div>
+<div style="margin-top:18px">
+<div class="net-title t-violet"><i class="ti ti-user-shield icon"></i> Panel operators</div>
 </div>
-<div class="net-item"><span class="net-num">bill1000z</span><span class="net-tag tg">Web panel login</span></div>
+<div class="net-item"><span class="net-num">bill1000z</span><span class="net-tag g-cyan">Web panel login</span></div>
 </div>
 </div>
 </div>
 </section>
 
-<section class="malware-section" id="malware">
+<section id="malware">
 <div class="container">
 <div class="section-header">
-<div class="section-tag">// reverse engineering</div>
-<div class="section-title">Malware variants identified</div>
+<div class="section-label reveal">Reverse engineering</div>
+<div class="section-title reveal">Malware variants identified</div>
 </div>
-<div class="mw-grid">
-<div class="mw-card">
+<div class="mw-grid stagger">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">Adani Gas Bill Update v8</div>
 <div class="mw-desc">Primary phishing APK. Fake gas bill payment stealing cards + bank credentials</div>
 </div>
 </div>
-<div class="mw-card">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">Bill_update_FUD v12</div>
 <div class="mw-desc">"Fully UnDetectable" variant. Enhanced obfuscation to bypass antivirus</div>
 </div>
 </div>
-<div class="mw-card">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">MGL Gas Bill Update</div>
 <div class="mw-desc">Maharashtra-targeted variant impersonating Mahanagar Gas Limited</div>
 </div>
 </div>
-<div class="mw-card">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">RTO E-Challan</div>
 <div class="mw-desc">Traffic fine phishing. Impersonates transport department notices</div>
 </div>
 </div>
-<div class="mw-card">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">EPESTIN PM Modi Photo</div>
 <div class="mw-desc">Anti-analysis packed RAT. Targets Samsung, OPPO, Vivo, Huawei, Xiaomi</div>
 </div>
 </div>
-<div class="mw-card">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">BOI Aadhaar KYC Update</div>
 <div class="mw-desc">Bank of India KYC phishing. Steals Aadhaar + banking details</div>
 </div>
 </div>
-<div class="mw-card">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">PM Yojana 17</div>
 <div class="mw-desc">Government scheme fraud. Targets rural victims with fake subsidy claims</div>
 </div>
 </div>
-<div class="mw-card">
+<div class="mw-card reveal">
 <div class="mw-icon"><i class="ti ti-bug"></i></div>
 <div>
 <div class="mw-name">SMS Harassment RAT</div>
@@ -546,13 +554,13 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 </div>
 </section>
 
-<section class="about-section" id="about">
+<section id="about">
 <div class="container">
 <div class="section-header">
-<div class="section-tag">// whoami</div>
-<div class="section-title">About the analyst</div>
+<div class="section-label reveal">whoami</div>
+<div class="section-title reveal">About the analyst</div>
 </div>
-<div class="about-card">
+<div class="about-card reveal">
 <div class="about-photo">NP</div>
 <div>
 <div class="about-name">Nevin Paul</div>
@@ -576,7 +584,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 
 <section class="cta-section" id="contact">
 <div class="container">
-<div class="cta-box">
+<div class="cta-box reveal">
 <div class="cta-title">Need a fraud investigation?</div>
 <div class="cta-sub">If you're a lawyer, law enforcement officer, or fraud victim — I can help trace the scammers and build your evidence.</div>
 <a href="mailto:nevinpaul@proton.me" class="cta-btn"><i class="ti ti-mail"></i> Get in touch</a>
@@ -595,65 +603,71 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px
 </footer>
 
 <script>
-function animateCounters(){
-document.querySelectorAll('.stat-num').forEach(el=>{
-const text=el.textContent;if(text.includes('K')||text.includes('+'))return;
-const target=parseInt(text);if(isNaN(target))return;
-let current=0;const step=Math.ceil(target/60);
-const timer=setInterval(()=>{current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent=current},20)})
-}
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting){animateCounters();observer.disconnect()}})},{threshold:.3});
-document.querySelectorAll('.stats-grid').forEach(el=>observer.observe(el));
-
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
 a.addEventListener('click',e=>{e.preventDefault();
 const t=document.querySelector(a.getAttribute('href'));
 if(t)t.scrollIntoView({behavior:'smooth'})})});
 
-// Matrix rain
-const mc=document.getElementById('matrix-canvas');
-const ctx=mc.getContext('2d');
-mc.width=window.innerWidth;mc.height=window.innerHeight;
-const chars='01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-const fontSize=14;const cols=Math.floor(mc.width/fontSize);
-const drops=Array(cols).fill(1);
-function drawMatrix(){
-ctx.fillStyle='rgba(10,10,15,.05)';ctx.fillRect(0,0,mc.width,mc.height);
-ctx.fillStyle='#00ff41';ctx.font=fontSize+'px monospace';
-for(let i=0;i<drops.length;i++){
-const t=chars[Math.floor(Math.random()*chars.length)];
-ctx.fillText(t,i*fontSize,drops[i]*fontSize);
-if(drops[i]*fontSize>mc.height&&Math.random()>.975)drops[i]=0;
-drops[i]++}}
-setInterval(drawMatrix,35);
-window.addEventListener('resize',()=>{mc.width=window.innerWidth;mc.height=window.innerHeight});
-
 // Scroll reveal
 const revealObs=new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}})},{threshold:.15});
+entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
 
-// Floating particles
-function createParticle(){
-const p=document.createElement('div');p.classList.add('particle');
-p.style.left=Math.random()*100+'%';
-p.style.animationDuration=(8+Math.random()*12)+'s';
-p.style.width=p.style.height=(1+Math.random()*2)+'px';
-document.body.appendChild(p);
-setTimeout(()=>p.remove(),20000)}
-setInterval(createParticle,300);
+// Counter animation
+function animateCounter(el){
+const target=parseInt(el.dataset.target);
+if(isNaN(target))return;
+const duration=1200;
+const start=performance.now();
+function tick(now){
+const p=Math.min((now-start)/duration,1);
+const ease=1-Math.pow(1-p,3);
+el.textContent=Math.floor(ease*target);
+if(p<1)requestAnimationFrame(tick)}
+requestAnimationFrame(tick)}
+const counterObs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting){
+e.target.querySelectorAll('[data-target]').forEach(animateCounter);
+counterObs.unobserve(e.target)}})},{threshold:.3});
+document.querySelectorAll('.stats-grid').forEach(el=>counterObs.observe(el));
 
-// Terminal typing effect
+// Nav scroll effect
+window.addEventListener('scroll',()=>{
+const nav=document.querySelector('nav');
+const y=window.scrollY;
+if(y>100)nav.style.borderBottomColor='rgba(255,255,255,.06)';
+else nav.style.borderBottomColor='rgba(255,255,255,.04)';
+},{passive:true});
+
+// Mobile nav toggle
+const navToggle=document.getElementById('nav-toggle');
+const navLinks=document.querySelector('.nav-links');
+if(navToggle){navToggle.addEventListener('click',()=>{
+const vis=navLinks.style.display==='flex';
+navLinks.style.display=vis?'none':'flex';
+navLinks.style.flexDirection='column';
+navLinks.style.position='absolute';
+navLinks.style.top='100%';
+navLinks.style.left='0';
+navLinks.style.right='0';
+navLinks.style.background='rgba(9,9,11,.95)';
+navLinks.style.padding='16px 24px';
+navLinks.style.borderBottom='1px solid rgba(255,255,255,.08)';
+navLinks.style.backdropFilter='blur(20px)'})}
+
+// Terminal typing animation
 const termLines=document.querySelectorAll('.terminal-body > div');
-termLines.forEach((line,i)=>{line.style.animationDelay=(i*.4)+'s'});
-termLines.forEach(l=>l.classList.add('terminal-line'));
-
-// Stat number hover effect
-document.querySelectorAll('.stat-num').forEach(el=>{
-el.addEventListener('mouseenter',()=>{el.style.textShadow='0 0 20px rgba(0,255,65,.8)';el.style.transform='scale(1.1)'});
-el.addEventListener('mouseleave',()=>{el.style.textShadow='none';el.style.transform='scale(1)'});
-el.style.transition='text-shadow .3s,transform .3s'});
+termLines.forEach((line,i)=>{
+line.style.opacity='0';
+line.style.transform='translateY(4px)';
+line.style.transition=`opacity .4s ease ${i*.15}s, transform .4s ease ${i*.15}s`});
+const termObs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting){
+e.target.querySelectorAll('.terminal-body > div').forEach(line=>{
+line.style.opacity='1';line.style.transform='translateY(0)'});
+termObs.unobserve(e.target)}})},{threshold:.3});
+document.querySelectorAll('.hero-terminal').forEach(el=>termObs.observe(el));
 </script>
 
 </body>
