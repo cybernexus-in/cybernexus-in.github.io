@@ -36,37 +36,40 @@
 --sans:'Inter',system-ui,sans-serif;
 --radius:16px;
 --radius-sm:10px;
+--hacker:#00ff41;
+--hacker-soft:rgba(0,255,65,.12);
+--hacker-dim:rgba(0,255,65,.04);
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-::selection{background:var(--violet);color:#fff}
+body{background:#000;color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--hacker);color:#000}
 
 .container{max-width:1120px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
 
-/* Aurora background */
-.aurora{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
-.aurora-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.12;animation:aurora-drift 20s ease-in-out infinite alternate}
-.aurora-blob:nth-child(1){width:600px;height:600px;background:var(--cyan);top:-200px;left:-100px;animation-delay:0s}
-.aurora-blob:nth-child(2){width:500px;height:500px;background:var(--violet);top:30%;right:-150px;animation-delay:-5s;animation-duration:25s}
-.aurora-blob:nth-child(3){width:400px;height:400px;background:var(--emerald);bottom:-100px;left:30%;animation-delay:-10s;animation-duration:22s}
-@keyframes aurora-drift{
-0%{transform:translate(0,0) scale(1)}
-33%{transform:translate(40px,-30px) scale(1.1)}
-66%{transform:translate(-30px,40px) scale(.95)}
-100%{transform:translate(20px,-20px) scale(1.05)}
-}
+/* Matrix rain canvas */
+#matrix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.12}
+/* Particle network */
+#network-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.35}
 
-/* Subtle dot grid */
-.dot-grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;
-background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);
-background-size:32px 32px}
+/* Scanlines overlay */
+.scanlines{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;
+background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);
+mix-blend-mode:multiply}
+.scanlines::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(0,0,0,.5) 100%);pointer-events:none}
+
+/* Cyber grid */
+.cyber-grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.04;
+background-image:linear-gradient(var(--hacker) 1px,transparent 1px),linear-gradient(90deg,var(--hacker) 1px,transparent 1px);
+background-size:60px 60px}
 
 /* NAV */
-nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);background:rgba(9,9,11,.7);border-bottom:1px solid var(--glass-border);transition:all .3s}
+nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);background:rgba(0,0,0,.85);border-bottom:1px solid rgba(0,255,65,.15);transition:all .3s}
+nav::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--hacker),transparent);opacity:.4}
 .nav-inner{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:800;font-size:13px;letter-spacing:-.5px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.nav-logo-text{font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:1.5px;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-logo-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:800;font-size:13px;letter-spacing:-.5px;background:linear-gradient(135deg,var(--hacker),var(--cyan));color:#000;text-shadow:none;box-shadow:0 0 12px rgba(0,255,65,.3)}
+.nav-logo-text{font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:1.5px;color:var(--hacker);text-shadow:0 0 10px var(--hacker-soft)}
 .nav-links{display:flex;gap:28px}
 .nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;transition:color .3s}
 .nav-links a:hover{color:var(--text)}
@@ -74,17 +77,24 @@ nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) satur
 
 /* HERO */
 .hero{padding:160px 0 100px;position:relative}
-.hero-content{max-width:720px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--cyan);border:1px solid var(--cyan-soft);padding:6px 16px;border-radius:100px;margin-bottom:28px;background:rgba(6,182,212,.06);backdrop-filter:blur(10px)}
-.hero-pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:pulse 2s ease-in-out infinite}
+.hero-content{max-width:720px;margin:0 auto;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--hacker);border:1px solid var(--hacker-soft);padding:6px 16px;border-radius:100px;margin-bottom:28px;background:var(--hacker-dim);backdrop-filter:blur(10px);text-shadow:0 0 8px var(--hacker-soft)}
+.hero-pulse{width:7px;height:7px;border-radius:50%;background:var(--hacker);box-shadow:0 0 8px var(--hacker),0 0 20px var(--hacker-soft);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-.hero h1{font-size:clamp(36px,5.5vw,60px);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin-bottom:20px}
-.hero h1 .gradient{background:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 50%,var(--emerald) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:40px}
+.hero h1{font-size:clamp(36px,5.5vw,60px);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin-bottom:20px;position:relative}
+.hero h1 .gradient{background:linear-gradient(135deg,var(--cyan) 0%,var(--hacker) 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradient-shift 4s ease infinite;background-size:200% 200%}
+@keyframes gradient-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
+.glitch::before{left:2px;text-shadow:-2px 0 var(--rose);animation:glitch-1 3s infinite linear alternate-reverse;clip-path:inset(0 0 65% 0)}
+.glitch::after{left:-2px;text-shadow:2px 0 var(--cyan);animation:glitch-2 2.5s infinite linear alternate-reverse;clip-path:inset(40% 0 0 0)}
+@keyframes glitch-1{0%{clip-path:inset(0 0 95% 0)}5%{clip-path:inset(30% 0 50% 0)}10%{clip-path:inset(70% 0 5% 0)}15%{clip-path:inset(0 0 95% 0)}20%{clip-path:inset(50% 0 30% 0)}25%,100%{clip-path:inset(0 0 95% 0)}}
+@keyframes glitch-2{0%{clip-path:inset(95% 0 0 0)}5%{clip-path:inset(50% 0 30% 0)}10%{clip-path:inset(10% 0 60% 0)}15%{clip-path:inset(95% 0 0 0)}20%{clip-path:inset(40% 0 40% 0)}25%,100%{clip-path:inset(95% 0 0 0)}}
+.hero-sub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin:0 auto 40px}
 
 /* LIVE TERMINAL */
-.hero-terminal{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(20px);max-width:680px;box-shadow:0 20px 60px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05)}
-.terminal-header{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--glass-border);background:rgba(255,255,255,.02)}
+.hero-terminal{background:rgba(0,10,0,.8);border:1px solid rgba(0,255,65,.2);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(20px);max-width:680px;margin:0 auto;box-shadow:0 0 30px rgba(0,255,65,.08),0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(0,255,65,.1)}
+.terminal-header{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid rgba(0,255,65,.15);background:rgba(0,255,65,.03)}
 .terminal-dots{display:flex;gap:6px}
 .terminal-dot{width:10px;height:10px;border-radius:50%}
 .terminal-title{font-family:var(--mono);font-size:11px;color:var(--text3);margin-left:8px}
@@ -113,35 +123,38 @@ nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) satur
 /* SECTION SHARED */
 section{padding:100px 0}
 .section-header{margin-bottom:56px}
-.section-label{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--violet);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.section-label{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--hacker);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;text-shadow:0 0 10px var(--hacker-soft)}
+.section-label::before{content:'> ';opacity:.5}
 .section-title{font-size:clamp(26px,3.5vw,36px);font-weight:700;letter-spacing:-.02em;color:var(--text)}
 
 /* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.stat-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px 24px;text-align:center;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.06),transparent 70%);opacity:0;transition:opacity .4s}
-.stat-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.15)}
-.stat-card:hover::before{opacity:1}
-.stat-num{font-family:var(--mono);font-size:38px;font-weight:700;line-height:1}
+.stat-card{background:rgba(0,10,0,.6);border:1px solid rgba(0,255,65,.12);border-radius:var(--radius);padding:28px 24px;text-align:center;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--hacker),transparent);opacity:.5}
+.stat-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--hacker-dim),transparent 70%);opacity:0;transition:opacity .4s}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(0,255,65,.3);box-shadow:0 0 20px rgba(0,255,65,.1)}
+.stat-card:hover::after{opacity:1}
+.stat-num{font-family:var(--mono);font-size:38px;font-weight:700;line-height:1;text-shadow:0 0 20px currentColor}
 .stat-num.cyan{color:var(--cyan)}
 .stat-num.rose{color:var(--rose)}
 .stat-num.violet{color:var(--violet)}
 .stat-num.amber{color:var(--amber)}
 .stat-label{font-size:12px;color:var(--text2);margin-top:10px;font-weight:500;text-transform:uppercase;letter-spacing:1px}
-.stat-live::after{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--emerald);margin-left:8px;vertical-align:middle;animation:pulse 2s infinite}
-.db-stat .stat-live-dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--emerald);margin-left:4px;vertical-align:middle;animation:pulse 2s infinite}
+.stat-live::after{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--hacker);box-shadow:0 0 8px var(--hacker);margin-left:8px;vertical-align:middle;animation:pulse 2s infinite}
+.db-stat .stat-live-dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--hacker);box-shadow:0 0 6px var(--hacker);margin-left:4px;vertical-align:middle;animation:pulse 2s infinite}
 
 /* DATABASES */
 .db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.db-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
-.db-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.12);box-shadow:0 16px 48px rgba(0,0,0,.2)}
+.db-card{background:rgba(0,10,0,.5);border:1px solid rgba(0,255,65,.1);border-radius:var(--radius);padding:28px;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.db-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--hacker),transparent);opacity:.3}
+.db-card:hover{transform:translateY(-4px);border-color:rgba(0,255,65,.25);box-shadow:0 0 30px rgba(0,255,65,.08),0 16px 48px rgba(0,0,0,.3)}
 .db-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
 .db-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .db-icon.i-cyan{background:var(--cyan-soft);color:var(--cyan)}
 .db-icon.i-violet{background:var(--violet-soft);color:var(--violet)}
 .db-icon.i-rose{background:var(--rose-soft);color:var(--rose)}
-.live-badge{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--rose);padding:3px 10px;border-radius:100px;background:var(--rose-soft);border:1px solid rgba(244,63,94,.2)}
-.live-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--rose);animation:pulse 2s infinite}
+.live-badge{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--hacker);padding:3px 10px;border-radius:100px;background:var(--hacker-dim);border:1px solid rgba(0,255,65,.2);text-shadow:0 0 6px var(--hacker-soft)}
+.live-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--hacker);box-shadow:0 0 6px var(--hacker);animation:pulse 2s infinite}
 .db-name{font-size:16px;font-weight:600;margin-bottom:6px}
 .db-desc{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.6}
 .db-stats{display:flex;flex-wrap:wrap;gap:8px}
@@ -150,8 +163,8 @@ section{padding:100px 0}
 
 /* CASES */
 .case-list{display:flex;flex-direction:column;gap:12px}
-.case-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1)}
-.case-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
+.case-card{background:rgba(0,10,0,.4);border:1px solid rgba(0,255,65,.08);border-radius:var(--radius);padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1)}
+.case-card:hover{transform:translateY(-2px);border-color:rgba(0,255,65,.2);box-shadow:0 0 15px rgba(0,255,65,.05)}
 .case-avatar{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:14px}
 .case-avatar.av-rose{background:var(--rose-soft);color:var(--rose)}
 .case-avatar.av-amber{background:var(--amber-soft);color:var(--amber)}
@@ -168,7 +181,7 @@ section{padding:100px 0}
 
 /* NETWORK */
 .net-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.net-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px;backdrop-filter:blur(10px)}
+.net-card{background:rgba(0,10,0,.4);border:1px solid rgba(0,255,65,.08);border-radius:var(--radius);padding:24px;backdrop-filter:blur(10px)}
 .net-title{font-family:var(--mono);font-size:12px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .net-title .icon{font-size:16px}
 .net-title.t-amber{color:var(--amber)}
@@ -186,26 +199,27 @@ section{padding:100px 0}
 
 /* MALWARE */
 .mw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.mw-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:18px 22px;display:flex;align-items:center;gap:16px;transition:all .4s cubic-bezier(.4,0,.2,1)}
-.mw-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
+.mw-card{background:rgba(0,10,0,.4);border:1px solid rgba(0,255,65,.08);border-radius:var(--radius-sm);padding:18px 22px;display:flex;align-items:center;gap:16px;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.mw-card:hover{transform:translateY(-2px);border-color:rgba(0,255,65,.2)}
 .mw-icon{width:40px;height:40px;border-radius:10px;background:var(--rose-soft);display:flex;align-items:center;justify-content:center;color:var(--rose);font-size:19px;flex-shrink:0}
 .mw-name{font-size:14px;font-weight:600}
 .mw-desc{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.5}
 
 /* ABOUT */
-.about-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:44px;display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;backdrop-filter:blur(10px)}
-.about-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--cyan-soft);box-shadow:0 0 20px rgba(6,182,212,.25)}
+.about-card{background:rgba(0,10,0,.4);border:1px solid rgba(0,255,65,.1);border-radius:var(--radius);padding:44px;display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;backdrop-filter:blur(10px)}
+.about-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(0,255,65,.3);box-shadow:0 0 20px rgba(0,255,65,.2),0 0 40px rgba(0,255,65,.1)}
 .about-name{font-size:24px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
 .about-role{font-size:13px;font-weight:500;margin-bottom:14px;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:var(--mono)}
 .about-text{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:14px}
 .about-skills{display:flex;flex-wrap:wrap;gap:8px}
-.about-skill{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--glass-border);padding:5px 14px;border-radius:8px;transition:all .3s}
-.about-skill:hover{color:var(--text);border-color:rgba(255,255,255,.15)}
+.about-skill{font-family:var(--mono);font-size:11px;color:var(--text2);background:rgba(0,10,0,.4);border:1px solid rgba(0,255,65,.08);padding:5px 14px;border-radius:8px;transition:all .3s}
+.about-skill:hover{color:var(--hacker);border-color:rgba(0,255,65,.25);text-shadow:0 0 8px var(--hacker-soft)}
 
 /* SERVICES */
 .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.svc-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:32px 28px;backdrop-filter:blur(10px);transition:all .4s}
-.svc-card:hover{border-color:rgba(255,255,255,.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.svc-card{background:rgba(0,10,0,.4);border:1px solid rgba(0,255,65,.08);border-radius:var(--radius);padding:32px 28px;backdrop-filter:blur(10px);transition:all .4s;position:relative}
+.svc-card::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,65,.3),transparent)}
+.svc-card:hover{border-color:rgba(0,255,65,.2);transform:translateY(-4px);box-shadow:0 0 25px rgba(0,255,65,.06),0 12px 40px rgba(0,0,0,.3)}
 .svc-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px}
 .svc-icon.ic-cyan{background:var(--cyan-soft);color:var(--cyan)}
 .svc-icon.ic-violet{background:var(--violet-soft);color:var(--violet)}
@@ -217,15 +231,16 @@ section{padding:100px 0}
 
 /* FIRST RESPONSE */
 .fr-section{padding:80px 0}
-.fr-box{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:48px 40px;backdrop-filter:blur(10px);position:relative;overflow:hidden}
-.fr-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rose),var(--amber),var(--emerald))}
+.fr-box{background:rgba(0,10,0,.5);border:1px solid rgba(0,255,65,.1);border-radius:var(--radius);padding:48px 40px;backdrop-filter:blur(10px);position:relative;overflow:hidden}
+.fr-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--rose),var(--amber),var(--hacker),transparent);animation:scan-line 3s linear infinite}
+@keyframes scan-line{0%{background-position:-200% 0}100%{background-position:200% 0}}
 .fr-header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
 .fr-alert-icon{width:42px;height:42px;border-radius:12px;background:var(--rose-soft);color:var(--rose);display:flex;align-items:center;justify-content:center;font-size:22px;animation:fr-pulse 2s ease-in-out infinite}
 @keyframes fr-pulse{0%,100%{box-shadow:0 0 0 0 rgba(244,63,94,.3)}50%{box-shadow:0 0 0 10px rgba(244,63,94,0)}}
 .fr-title{font-size:24px;font-weight:700;letter-spacing:-.3px}
 .fr-subtitle{color:var(--text2);font-size:14px;margin-bottom:36px;max-width:600px}
 .fr-subtitle strong{color:var(--amber)}
-.fr-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.fr-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
 .fr-steps::before{content:'';position:absolute;top:24px;left:40px;right:40px;height:2px;background:var(--glass-border)}
 .fr-step{text-align:center;position:relative;z-index:1;padding:0 8px;opacity:0;transform:translateY(12px);transition:all .5s ease}
 .fr-step.show{opacity:1;transform:translateY(0)}
@@ -244,7 +259,7 @@ section{padding:100px 0}
 
 /* WHY PRIVATE FORENSICS */
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px}
-.why-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px 24px;backdrop-filter:blur(10px)}
+.why-card{background:rgba(0,10,0,.4);border:1px solid rgba(0,255,65,.08);border-radius:var(--radius);padding:28px 24px;backdrop-filter:blur(10px)}
 .why-card-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
 .why-tag{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:6px;font-weight:600}
 .why-tag.tag-cell{background:var(--surface3);color:var(--text3)}
@@ -258,7 +273,7 @@ section{padding:100px 0}
 .why-text{font-size:13px;color:var(--text2);line-height:1.5}
 .why-text strong{color:var(--text)}
 .why-stat-row{display:flex;gap:24px;margin-top:32px}
-.why-stat-box{flex:1;background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:20px;text-align:center}
+.why-stat-box{flex:1;background:rgba(0,10,0,.4);border:1px solid rgba(244,63,94,.15);border-radius:var(--radius-sm);padding:20px;text-align:center}
 .why-stat-num{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--rose);margin-bottom:4px}
 .why-stat-label{font-size:12px;color:var(--text3)}
 @media(max-width:768px){.why-grid{grid-template-columns:1fr}.why-stat-row{flex-direction:column}}
@@ -268,28 +283,35 @@ section{padding:100px 0}
 .contact-field{display:flex;flex-direction:column;gap:6px}
 .contact-field.full{grid-column:1/-1}
 .contact-label{font-family:var(--mono);font-size:11px;color:var(--text2);letter-spacing:.5px}
-.contact-input,.contact-select,.contact-textarea{background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:var(--sans);font-size:14px;outline:none;transition:border-color .3s}
-.contact-input:focus,.contact-select:focus,.contact-textarea:focus{border-color:var(--cyan)}
+.contact-input,.contact-select,.contact-textarea{background:rgba(0,10,0,.5);border:1px solid rgba(0,255,65,.1);border-radius:10px;padding:12px 16px;color:var(--text);font-family:var(--sans);font-size:14px;outline:none;transition:border-color .3s}
+.contact-input:focus,.contact-select:focus,.contact-textarea:focus{border-color:var(--hacker);box-shadow:0 0 10px rgba(0,255,65,.1)}
 .contact-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a1a1aa'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .contact-select option{background:var(--bg2);color:var(--text)}
 .contact-textarea{min-height:100px;resize:vertical}
-.contact-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 36px;border-radius:12px;border:none;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(139,92,246,.25);margin-top:8px}
-.contact-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,.35)}
+.contact-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--hacker),var(--cyan));color:#000;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 36px;border-radius:12px;border:none;cursor:pointer;transition:all .3s;box-shadow:0 0 20px rgba(0,255,65,.2);margin-top:8px}
+.contact-submit:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,255,65,.35)}
+.contact-submit.sending{opacity:.6;pointer-events:none}
+.form-msg{font-family:var(--mono);font-size:13px;padding:14px 20px;border-radius:10px;margin-top:14px;display:none;align-items:center;gap:8px}
+.form-msg.success{display:flex;background:var(--hacker-dim);border:1px solid rgba(0,255,65,.2);color:var(--hacker)}
+.form-msg.error{display:flex;background:var(--rose-soft);border:1px solid rgba(244,63,94,.2);color:var(--rose)}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
 /* CTA */
 .cta-section{text-align:center}
-.cta-box{background:var(--surface);border:1px solid var(--glass-border);border-radius:20px;padding:56px 48px;backdrop-filter:blur(20px);position:relative;overflow:hidden}
-.cta-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--violet-soft),transparent 60%);pointer-events:none}
+.cta-box{background:rgba(0,10,0,.5);border:1px solid rgba(0,255,65,.12);border-radius:20px;padding:56px 48px;backdrop-filter:blur(20px);position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--hacker-soft),transparent 60%);pointer-events:none}
+.cta-box::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--hacker),transparent);opacity:.5}
 .cta-title{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px;position:relative}
 .cta-sub{font-size:15px;color:var(--text2);margin-bottom:28px;position:relative}
-.cta-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 32px;border-radius:12px;text-decoration:none;transition:all .3s;position:relative;box-shadow:0 4px 20px rgba(139,92,246,.25)}
-.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,.35)}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--hacker),var(--cyan));color:#000;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 32px;border-radius:12px;text-decoration:none;transition:all .3s;position:relative;box-shadow:0 0 20px rgba(0,255,65,.25)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,255,65,.4),0 8px 30px rgba(0,255,65,.2)}
 .cta-links{margin-top:20px;display:flex;justify-content:center;gap:28px;position:relative}
 .cta-link{color:var(--text2);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;transition:color .3s}
 .cta-link:hover{color:var(--text)}
 
 /* FOOTER */
-footer{border-top:1px solid var(--glass-border);padding:28px 0;text-align:center;position:relative;z-index:2}
+footer{border-top:1px solid rgba(0,255,65,.1);padding:28px 0;text-align:center;position:relative;z-index:2}
+footer::before{content:'';position:absolute;top:-1px;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--hacker),transparent);opacity:.3}
 .footer-text{font-family:var(--mono);font-size:11px;color:var(--text3)}
 
 /* SCROLL REVEAL */
@@ -326,12 +348,10 @@ section{padding:60px 0}
 </head>
 <body>
 
-<div class="aurora">
-<div class="aurora-blob"></div>
-<div class="aurora-blob"></div>
-<div class="aurora-blob"></div>
-</div>
-<div class="dot-grid"></div>
+<canvas id="matrix-canvas"></canvas>
+<canvas id="network-canvas"></canvas>
+<div class="scanlines"></div>
+<div class="cyber-grid"></div>
 
 <nav>
 <div class="nav-inner">
@@ -355,7 +375,7 @@ section{padding:60px 0}
 <div class="container">
 <div class="hero-content">
 <div class="hero-badge reveal"><div class="hero-pulse"></div> Tracking 3 live C2 databases</div>
-<h1 class="reveal"><span class="gradient">Cyber fraud investigation</span><br>from device to courtroom.</h1>
+<h1 class="reveal"><span class="gradient glitch" data-text="Cyber fraud investigation">Cyber fraud investigation</span><br>from device to courtroom.</h1>
 <p class="hero-sub reveal">We analyze malicious APKs, trace stolen data, help secure compromised accounts, and build forensic evidence packages for law enforcement and legal proceedings.</p>
 </div>
 
@@ -382,7 +402,7 @@ section{padding:60px 0}
 <div class="stat-label">Devices compromised</div>
 </div>
 <div class="stat-card reveal">
-<div class="stat-num rose" data-target="370">0</div>
+<div class="stat-num rose" id="live-stat-cards" data-target="370">0</div>
 <div class="stat-label">Cards stolen</div>
 </div>
 <div class="stat-card reveal">
@@ -427,7 +447,7 @@ section{padding:60px 0}
 <div class="svc-card reveal">
 <div class="svc-icon ic-violet"><i class="ti ti-gavel"></i></div>
 <div class="svc-name">Court-ready evidence packaging</div>
-<div class="svc-desc">Every finding is documented in a structured forensic report with Section 65B compliant documentation - ready for FIR filing, cybercrime.gov.in submission, or court proceedings.</div>
+<div class="svc-desc">Every finding is documented in a structured forensic report with Section 63 BSA compliant documentation - ready for FIR filing, cybercrime.gov.in submission, or court proceedings.</div>
 </div>
 <div class="svc-card reveal">
 <div class="svc-icon ic-cyan"><i class="ti ti-alert-triangle"></i></div>
@@ -445,42 +465,36 @@ section{padding:60px 0}
 <div class="fr-alert-icon"><i class="ti ti-alert-triangle"></i></div>
 <div class="fr-title">Cyber crime first response</div>
 </div>
-<div class="fr-subtitle">The sooner you report, the higher the chance of recovering your money. <strong>RBI mandates zero customer liability if fraud is reported within 3 working days.</strong></div>
+<div class="fr-subtitle">The sooner you report, the higher the chance of recovering your money. <strong>RBI limits customer liability for unauthorized transactions reported within 3 working days.</strong></div>
 <div class="fr-steps" id="fr-steps">
 <div class="fr-step" data-step="1">
 <div class="fr-step-num">1</div>
 <div class="fr-step-label">Call 1930</div>
-<div class="fr-step-detail">National Cyber Crime Helpline. 24/7. They flag recipient banks to hold stolen funds via CFCFRMS.</div>
+<div class="fr-step-detail">National Cyber Crime Helpline (24/7). They register your complaint and use CFCFRMS to freeze the scammer's bank account before the money is withdrawn.</div>
 <div class="fr-step-time">Immediately</div>
 </div>
 <div class="fr-step" data-step="2">
 <div class="fr-step-num">2</div>
-<div class="fr-step-label">Call bank fraud line</div>
-<div class="fr-step-detail">Block cards, disable net banking, freeze UPI. Every bank has a 24/7 fraud helpline.</div>
-<div class="fr-step-time">Within 10 min</div>
+<div class="fr-step-label">Inform your bank</div>
+<div class="fr-step-detail">Call your bank's customer care or visit the branch. Report the unauthorized transaction, block your card/UPI, and request a reversal.</div>
+<div class="fr-step-time">Same day</div>
 </div>
 <div class="fr-step" data-step="3">
 <div class="fr-step-num">3</div>
-<div class="fr-step-label">Preserve evidence</div>
-<div class="fr-step-detail">Don't uninstall the app or reset your phone. Screenshot SMS, call logs, transactions, WhatsApp chats.</div>
-<div class="fr-step-time">Within 30 min</div>
+<div class="fr-step-label">File at cybercrime.gov.in</div>
+<div class="fr-step-detail">Register on the National Cyber Crime Reporting Portal and file your complaint with transaction details, screenshots, and bank statements. Save the complaint number.</div>
+<div class="fr-step-time">Same day</div>
 </div>
 <div class="fr-step" data-step="4">
 <div class="fr-step-num">4</div>
-<div class="fr-step-label">File at cybercrime.gov.in</div>
-<div class="fr-step-detail">National Cyber Crime Reporting Portal (NCRP). Upload evidence, save acknowledgement number for follow-up.</div>
-<div class="fr-step-time">Within 1 hour</div>
-</div>
-<div class="fr-step" data-step="5">
-<div class="fr-step-num">5</div>
-<div class="fr-step-label">File FIR at police station</div>
-<div class="fr-step-detail">Zero FIR at any police station. Bring device, bank statements, screenshots, and portal receipt.</div>
-<div class="fr-step-time">Within 24 hours</div>
+<div class="fr-step-label">Visit nearest police station</div>
+<div class="fr-step-detail">Take your cybercrime.gov.in complaint number and all evidence to the nearest police station. They file the FIR and begin the investigation.</div>
+<div class="fr-step-time">Within 3 days</div>
 </div>
 </div>
 <div class="fr-bottom">
-<div class="fr-stat"><strong>1930</strong> is the only number that can flag recipient banks before money is withdrawn</div>
-<div class="fr-stat" style="margin-left:auto"><strong>3 working days</strong> RBI zero-liability window (report faster = better odds)</div>
+<div class="fr-stat"><strong>Act fast</strong> the sooner you call 1930, the higher the chance of freezing stolen funds</div>
+<div class="fr-stat" style="margin-left:auto"><strong>3 working days</strong> RBI liability-limiting window for unauthorized transactions</div>
 </div>
 </div>
 </div>
@@ -499,7 +513,7 @@ section{padding:60px 0}
 <span class="why-label">Standard process</span>
 </div>
 <div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Forwards APK samples to NCFL (National Cyber Forensic Lab) - <strong>weeks to months backlog</strong></span></div>
-<div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Sends legal notice to Firebase/Google for database access - <strong>takes weeks</strong></span></div>
+<div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Sends request to Google for database access through official channels - <strong>takes weeks</strong></span></div>
 <div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Files chargesheet with basic complaint and victim statement</span></div>
 <div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Cannot cross-reference scammer networks across multiple databases</span></div>
 </div>
@@ -509,24 +523,24 @@ section{padding:60px 0}
 <span class="why-label">Technical investigation</span>
 </div>
 <div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Reverse engineers APK in hours - <strong>permissions, C2 servers, data targets identified</strong></span></div>
-<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Extracts live Firebase/C2 database URLs from APK code - <strong>directly accesses scammer's stolen data</strong></span></div>
+<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Extracts C2 server URLs from APK code - <strong>identifies scammer infrastructure and stolen data scope</strong></span></div>
 <div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Currently monitoring <strong>3 live databases</strong> with real-time victim data tracking</span></div>
-<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Builds Section 65B compliant forensic evidence package for court</span></div>
+<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Builds Section 63 BSA compliant forensic evidence package for court</span></div>
 <div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Maps scammer phone numbers, Telegram IDs, and victims across databases</span></div>
 </div>
 </div>
 <div class="why-stat-row stagger">
 <div class="why-stat-box reveal">
 <div class="why-stat-num">&lt;2%</div>
-<div class="why-stat-label">Cyber crime conviction rate in India (NCRB)</div>
+<div class="why-stat-label">Estimated cyber crime conviction rate in India</div>
 </div>
 <div class="why-stat-box reveal">
 <div class="why-stat-num">60.8%</div>
 <div class="why-stat-label">Of registered cyber cases are fraud (NCRB 2021)</div>
 </div>
 <div class="why-stat-box reveal">
-<div class="why-stat-num">~10%</div>
-<div class="why-stat-label">Of cyber crimes actually get reported to police</div>
+<div class="why-stat-num">Low</div>
+<div class="why-stat-label">Most cyber crimes go unreported to police</div>
 </div>
 </div>
 </div>
@@ -536,7 +550,7 @@ section{padding:60px 0}
 <div class="container">
 <div class="section-header">
 <div class="section-label reveal">Live intelligence</div>
-<div class="section-title reveal">C2 databases under surveillance</div>
+<div class="section-title reveal">C2 databases identified through APK analysis</div>
 </div>
 <div class="db-grid stagger">
 <div class="db-card reveal">
@@ -550,7 +564,7 @@ section{padding:60px 0}
 <div class="db-stat"><span id="live-gas-devices">278</span> devices</div>
 <div class="db-stat"><span id="live-gas-forms">1,553</span> forms</div>
 <div class="db-stat"><span id="live-gas-campaigns">6</span> campaigns</div>
-<div class="db-stat"><span>370</span> cards</div>
+<div class="db-stat"><span id="live-gas-cards">370</span> cards</div>
 </div>
 </div>
 <div class="db-card reveal">
@@ -573,7 +587,7 @@ section{padding:60px 0}
 <div class="live-badge"><div class="live-badge-dot"></div> LIVE</div>
 </div>
 <div class="db-name">SMS harassment + RAT</div>
-<div class="db-desc">Active harassment and stalking platform combined with SMS interception. Last activity: 3 days ago. Intercepting PNB bank accounts and Jio OTPs.</div>
+<div class="db-desc">Active harassment and stalking platform combined with SMS interception. Intercepting banking OTPs and forwarding messages to operator-controlled numbers.</div>
 <div class="db-stats">
 <div class="db-stat"><span id="live-plan-clients">83</span> clients</div>
 <div class="db-stat"><span>86</span> msg groups</div>
@@ -592,10 +606,10 @@ section{padding:60px 0}
 </div>
 <div class="case-list stagger">
 <div class="case-card reveal">
-<div class="case-avatar av-rose">SP</div>
+<div class="case-avatar av-rose">V1</div>
 <div>
-<div class="case-name">S.N. Patel</div>
-<div class="case-detail">32 yo, Gujarat | 30 forms in 28 minutes | Digital banking compromised</div>
+<div class="case-name">Victim #1</div>
+<div class="case-detail">30s, Western India | 30 forms in 28 minutes | Digital banking compromised</div>
 <div class="case-tags">
 <span class="case-tag t-rose">2 cards stolen</span>
 <span class="case-tag t-rose">Net banking login</span>
@@ -607,13 +621,13 @@ section{padding:60px 0}
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar av-rose">KJ</div>
+<div class="case-avatar av-rose">V2</div>
 <div>
-<div class="case-name">K.J. Joshi</div>
-<div class="case-detail">70 yo, Gujarat | 31 forms in 2h 42min | SBI internet banking</div>
+<div class="case-name">Victim #2</div>
+<div class="case-detail">70s, Western India | 31 forms in 2h 42min | Internet banking compromised</div>
 <div class="case-tags">
 <span class="case-tag t-rose">3 cards stolen</span>
-<span class="case-tag t-rose">SBI login exposed</span>
+<span class="case-tag t-rose">Bank login exposed</span>
 <span class="case-tag t-amber">Family member's card</span>
 <span class="case-tag t-cyan">Rs 13 gas bill bait</span>
 </div>
@@ -622,10 +636,10 @@ section{padding:60px 0}
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar av-rose">SK</div>
+<div class="case-avatar av-rose">V3</div>
 <div>
-<div class="case-name">S. Kalia</div>
-<div class="case-detail">71 yo, Haryana | Retired pensioner | 12 OTPs intercepted</div>
+<div class="case-name">Victim #3</div>
+<div class="case-detail">70s, Northern India | Retired pensioner | 12 OTPs intercepted</div>
 <div class="case-tags">
 <span class="case-tag t-rose">2 cards stolen</span>
 <span class="case-tag t-rose">OTP interception</span>
@@ -636,25 +650,24 @@ section{padding:60px 0}
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar av-amber">PV</div>
+<div class="case-avatar av-amber">V4</div>
 <div>
-<div class="case-name">Panel victim [REDACTED]</div>
+<div class="case-name">Victim #4</div>
 <div class="case-detail">RAT-compromised | 12,751 SMS over 3.5 years | Multiple bank accounts</div>
 <div class="case-tags">
 <span class="case-tag t-rose">92 OTPs intercepted</span>
 <span class="case-tag t-rose">Call forwarding active</span>
 <span class="case-tag t-amber">WhatsApp hijack x3</span>
-<span class="case-tag t-cyan">Gambling addiction</span>
 </div>
 </div>
 <div class="case-severity s-crit">CRITICAL</div>
 </div>
 
 <div class="case-card reveal">
-<div class="case-avatar av-amber">NF</div>
+<div class="case-avatar av-amber">V5</div>
 <div>
-<div class="case-name">N. Fazal</div>
-<div class="case-detail">34 yo, Maharashtra | Card stolen + 22 SMS intercepted</div>
+<div class="case-name">Victim #5</div>
+<div class="case-detail">30s, Western India | Card stolen + 22 SMS intercepted</div>
 <div class="case-tags">
 <span class="case-tag t-rose">Card + CVV + PIN</span>
 <span class="case-tag t-amber">SMS forwarding</span>
@@ -676,14 +689,14 @@ section{padding:60px 0}
 <div class="net-grid">
 <div class="net-card reveal">
 <div class="net-title t-amber"><i class="ti ti-phone icon"></i> Operator phone numbers</div>
-<div class="net-item"><span class="net-num">+91 8271802279</span><span class="net-tag g-amber">Primary - 13+ victims</span></div>
-<div class="net-item"><span class="net-num">+91 9304866642</span><span class="net-tag g-amber">RAT operator</span></div>
-<div class="net-item"><span class="net-num">+91 9122426108</span><span class="net-tag g-amber">bill_72</span></div>
-<div class="net-item"><span class="net-num">+91 9296939701</span><span class="net-tag g-amber">bill_10</span></div>
-<div class="net-item"><span class="net-num">+91 9310883057</span><span class="net-tag g-amber">bill_36</span></div>
-<div class="net-item"><span class="net-num">+91 8822998190</span><span class="net-tag g-amber">bill_45</span></div>
-<div class="net-item"><span class="net-num">+91 9905178068</span><span class="net-tag g-amber">Operator</span></div>
-<div class="net-item"><span class="net-num">+91 9332519002</span><span class="net-tag g-amber">Operator</span></div>
+<div class="net-item"><span class="net-num">+91 82718XXXXX</span><span class="net-tag g-amber">Primary - 13+ victims</span></div>
+<div class="net-item"><span class="net-num">+91 93048XXXXX</span><span class="net-tag g-amber">RAT operator</span></div>
+<div class="net-item"><span class="net-num">+91 91224XXXXX</span><span class="net-tag g-amber">bill_72</span></div>
+<div class="net-item"><span class="net-num">+91 92969XXXXX</span><span class="net-tag g-amber">bill_10</span></div>
+<div class="net-item"><span class="net-num">+91 93108XXXXX</span><span class="net-tag g-amber">bill_36</span></div>
+<div class="net-item"><span class="net-num">+91 88229XXXXX</span><span class="net-tag g-amber">bill_45</span></div>
+<div class="net-item"><span class="net-num">+91 99051XXXXX</span><span class="net-tag g-amber">Operator</span></div>
+<div class="net-item"><span class="net-num">+91 93325XXXXX</span><span class="net-tag g-amber">Operator</span></div>
 </div>
 <div class="net-card reveal">
 <div class="net-title t-cyan"><i class="ti ti-brand-telegram icon"></i> Digital identifiers</div>
@@ -694,8 +707,8 @@ section{padding:60px 0}
 <div style="margin-top:18px">
 <div class="net-title t-emerald"><i class="ti ti-map-pin icon"></i> Geolocation</div>
 </div>
-<div class="net-item"><span class="net-num">152.59.154.120</span><span class="net-tag g-emerald">Patna, Bihar</span></div>
-<div class="net-item"><span class="net-num">47.31.65.117</span><span class="net-tag g-emerald">Dhanbad, Jharkhand</span></div>
+<div class="net-item"><span class="net-num">152.59.XXX.XXX</span><span class="net-tag g-emerald">Bihar region</span></div>
+<div class="net-item"><span class="net-num">47.31.XXX.XXX</span><span class="net-tag g-emerald">Jharkhand region</span></div>
 <div class="net-region">Operating region: Bihar-Jharkhand corridor</div>
 <div style="margin-top:18px">
 <div class="net-title t-violet"><i class="ti ti-user-shield icon"></i> Panel operators</div>
@@ -703,6 +716,7 @@ section{padding:60px 0}
 <div class="net-item"><span class="net-num">bill1000z</span><span class="net-tag g-cyan">Web panel login</span></div>
 </div>
 </div>
+<div style="text-align:center;padding:16px 0 0;font-family:var(--mono);font-size:11px;color:var(--text3)">Full unredacted data shared with cybercrime.gov.in and relevant law enforcement agencies</div>
 </div>
 </section>
 
@@ -785,15 +799,15 @@ section{padding:60px 0}
 <div class="about-name">Nevin Paul</div>
 <div class="about-role">Founder & Lead Investigator</div>
 <div class="about-text">CyberNexus investigates active cyber fraud operations targeting Indian citizens. We analyze malicious apps, trace stolen data through forensic methods, and build evidence packages that law enforcement can act on.</div>
-<div class="about-text">Every case on this site is real and backed by forensic evidence. We work with victims, lawyers, and law enforcement to help secure compromised accounts and file complaints through proper channels including cybercrime.gov.in and local cyber cells.</div>
+<div class="about-text">Every case on this site is real and backed by forensic evidence. We assist victims, lawyers, and law enforcement by providing forensic evidence that can be submitted through proper channels including cybercrime.gov.in and local cyber cells.</div>
 <div class="about-skills">
 <div class="about-skill">APK reverse engineering</div>
-<div class="about-skill">Firebase C2 exploitation</div>
+<div class="about-skill">Firebase C2 analysis</div>
 <div class="about-skill">Stolen data recovery</div>
 <div class="about-skill">Malware removal</div>
 <div class="about-skill">Bank account reset</div>
 <div class="about-skill">OSINT & scammer tracing</div>
-<div class="about-skill">FIR & CERT-In filing</div>
+<div class="about-skill">FIR & cyber cell filing</div>
 <div class="about-skill">Court-ready evidence</div>
 </div>
 </div>
@@ -846,6 +860,7 @@ section{padding:60px 0}
 </div>
 </form>
 <button type="button" class="contact-submit" id="contact-send"><i class="ti ti-send"></i> Send report</button>
+<div id="form-msg" class="form-msg"></div>
 <div class="cta-links" style="margin-top:20px">
 <a href="https://www.linkedin.com/in/nevin-paul-b5ab5127b" class="cta-link"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
 <span class="cta-link" style="cursor:default"><i class="ti ti-mail"></i> cyberrnexus@gmail.com</span>
@@ -857,10 +872,83 @@ section{padding:60px 0}
 <footer>
 <div class="container">
 <div class="footer-text">CyberNexus &copy; 2026 | All evidence preserved for law enforcement</div>
+<div class="footer-text" style="margin-top:8px;font-size:11px;color:var(--text3)">CyberNexus provides forensic investigation services only. We are not a law firm and do not provide legal advice. All victim data on this site is anonymized. Phone numbers and IPs are partially redacted. Scammer network data has been shared with relevant law enforcement agencies. By submitting the contact form, you consent to CyberNexus storing your details for case assessment purposes only.</div>
 </div>
 </footer>
 
 <script>
+// Matrix rain
+(function(){
+const c=document.getElementById('matrix-canvas');
+const ctx=c.getContext('2d');
+function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+const chars='01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>{}[]=/\\';
+const fontSize=14;
+let columns=Math.floor(c.width/fontSize);
+let drops=Array(columns).fill(1);
+function draw(){
+ctx.fillStyle='rgba(0,0,0,.05)';
+ctx.fillRect(0,0,c.width,c.height);
+ctx.fillStyle='#00ff41';
+ctx.font=fontSize+'px monospace';
+for(let i=0;i<drops.length;i++){
+const ch=chars[Math.floor(Math.random()*chars.length)];
+ctx.globalAlpha=Math.random()*.5+.2;
+ctx.fillText(ch,i*fontSize,drops[i]*fontSize);
+ctx.globalAlpha=1;
+if(drops[i]*fontSize>c.height&&Math.random()>.975)drops[i]=0;
+drops[i]++}
+}
+setInterval(draw,50);
+window.addEventListener('resize',()=>{columns=Math.floor(c.width/fontSize);drops=Array(columns).fill(1)});
+})();
+
+// Particle network
+(function(){
+const c=document.getElementById('network-canvas');
+const ctx=c.getContext('2d');
+function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+const count=80;
+const linkDist=150;
+const particles=[];
+for(let i=0;i<count;i++){
+particles.push({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+vx:(Math.random()-.5)*.4,
+vy:(Math.random()-.5)*.4,
+r:Math.random()*1.5+.5
+})}
+function animate(){
+ctx.clearRect(0,0,c.width,c.height);
+for(let i=0;i<count;i++){
+const p=particles[i];
+p.x+=p.vx;p.y+=p.vy;
+if(p.x<0||p.x>c.width)p.vx*=-1;
+if(p.y<0||p.y>c.height)p.vy*=-1;
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle='#00ff41';
+ctx.shadowBlur=6;ctx.shadowColor='#00ff41';
+ctx.fill();
+ctx.shadowBlur=0;
+for(let j=i+1;j<count;j++){
+const q=particles[j];
+const dx=p.x-q.x,dy=p.y-q.y;
+const dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<linkDist){
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(q.x,q.y);
+ctx.strokeStyle='rgba(0,255,65,'+(1-dist/linkDist)*.3+')';
+ctx.lineWidth=.5;
+ctx.stroke()}}}
+requestAnimationFrame(animate)}
+animate();
+})();
+
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
 a.addEventListener('click',e=>{e.preventDefault();
@@ -994,24 +1082,31 @@ setTimeout(()=>s.classList.add('active'),300)},i*400)});
 frObs.unobserve(e.target)}})},{threshold:.3});
 frObs.observe(frSteps)}
 
-// Contact form → mailto
-document.getElementById('contact-send').addEventListener('click',function(){
+// Contact form → Google Sheets + mailto
+const SHEET_URL='REDACTED_SHEET_V3';
+document.getElementById('contact-send').addEventListener('click',async function(){
+const btn=this;
+const msgEl=document.getElementById('form-msg');
 const name=document.getElementById('cf-name').value.trim();
 const phone=document.getElementById('cf-phone').value.trim();
 const type=document.getElementById('cf-type').value;
 const fraud=document.getElementById('cf-fraud').value;
 const desc=document.getElementById('cf-desc').value.trim();
-if(!name||!phone||!type){alert('Please fill in your name, phone, and who you are.');return}
+if(!name||!phone||!type){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Please fill in your name, phone, and who you are.';return}
 const typeLabel=document.querySelector('#cf-type option:checked').textContent;
 const fraudLabel=document.querySelector('#cf-fraud option:checked').textContent;
+btn.classList.add('sending');btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Sending...';
+const data={name,phone,role:typeLabel,fraudType:fraud?fraudLabel:'Not specified',description:desc||'(not provided)',timestamp:new Date().toISOString()};
+let saved=false;
+if(SHEET_URL!=='GOOGLE_APPS_SCRIPT_URL'){
+try{await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});saved=true}catch(e){}}
 const subject=encodeURIComponent('CyberNexus - New case: '+typeLabel);
-const body=encodeURIComponent(
-'Name: '+name+'\n'+
-'Phone/WhatsApp: '+phone+'\n'+
-'Role: '+typeLabel+'\n'+
-'Fraud type: '+(fraud?fraudLabel:'Not specified')+'\n\n'+
-'Description:\n'+(desc||'(not provided)')+'\n');
-window.open('mailto:cyberrnexus@gmail.com?subject='+subject+'&body='+body,'_self')});
+const body=encodeURIComponent('Name: '+name+'\nPhone/WhatsApp: '+phone+'\nRole: '+typeLabel+'\nFraud type: '+(fraud?fraudLabel:'Not specified')+'\n\nDescription:\n'+(desc||'(not provided)')+'\n');
+window.open('mailto:cyberrnexus@gmail.com?subject='+subject+'&body='+body,'_self');
+btn.classList.remove('sending');btn.innerHTML='<i class="ti ti-send"></i> Send report';
+msgEl.className='form-msg success';
+msgEl.innerHTML='<i class="ti ti-check"></i> '+(saved?'Report saved & email opened. We\'ll reach out within 24 hours.':'Email opened. Fill in the details and send it to us.');
+document.getElementById('cf-name').value='';document.getElementById('cf-phone').value='';document.getElementById('cf-desc').value='';});
 
 // Live Firebase data fetching
 (async function fetchLiveData(){
@@ -1039,18 +1134,21 @@ const campaignCount=billKeys.length;
 const panelDevices=panelClients?Object.keys(panelClients).length:21;
 const planDevices=planClients?Object.keys(planClients).length:83;
 
-let gasDevices=0,gasForms=0;
+let gasDevices=0,gasForms=0,gasCards=0;
 if(billKeys.length>0){
 const results=await Promise.all(billKeys.map(k=>Promise.all([
 fetchJSON(GAS_URL+'/'+k+'/users.json?shallow=true'),
-fetchJSON(GAS_URL+'/'+k+'/forms.json?shallow=true')])));
+fetchJSON(GAS_URL+'/'+k+'/forms.json')])));
 results.forEach(([users,forms])=>{
 if(users)gasDevices+=Object.keys(users).length;
-if(forms)gasForms+=Object.keys(forms).length})}
+if(forms){const entries=Object.values(forms);
+gasForms+=entries.length;
+gasCards+=entries.filter(f=>f&&f.cardDetailsForm===true).length}})}
 
 const stats={gasDevices:gasDevices||277,gasForms:gasForms||1523,
 campaignCount:campaignCount||6,panelDevices,planDevices,
-totalDevices:(gasDevices||277)+panelDevices+planDevices};
+totalDevices:(gasDevices||277)+panelDevices+planDevices,
+gasCards:gasCards||370};
 
 try{sessionStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),data:stats}))}catch(e){}
 applyStats(stats);
@@ -1062,10 +1160,15 @@ const heroEl=document.getElementById('live-stat-devices');
 if(heroEl){heroEl.dataset.target=String(s.totalDevices);
 if(heroEl.textContent!=='0')heroEl.textContent=fmt(s.totalDevices);
 heroEl.classList.add('stat-live')}
+const cardsEl=document.getElementById('live-stat-cards');
+if(cardsEl){cardsEl.dataset.target=String(s.gasCards);
+if(cardsEl.textContent!=='0')cardsEl.textContent=fmt(s.gasCards);
+cardsEl.classList.add('stat-live')}
 const ids={
 'live-gas-devices':fmt(s.gasDevices),
 'live-gas-forms':fmt(s.gasForms),
 'live-gas-campaigns':String(s.campaignCount),
+'live-gas-cards':fmt(s.gasCards),
 'live-panel-devices':String(s.panelDevices),
 'live-plan-clients':String(s.planDevices)};
 Object.entries(ids).forEach(([id,val])=>{
