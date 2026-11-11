@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyberNexus | Nevin Paul</title>
-<meta name="description" content="CyberNexus — Cyber fraud forensic intelligence. We trace scammers, recover evidence, and build court-ready cases.">
+<meta name="description" content="CyberNexus - Cyber fraud forensic intelligence. APK analysis, stolen data recovery, malware removal, bank account assistance, cyber cell complaint filing.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/tabler-icons.min.css">
@@ -65,7 +65,7 @@ background-size:32px 32px}
 nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);background:rgba(9,9,11,.7);border-bottom:1px solid var(--glass-border);transition:all .3s}
 .nav-inner{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff}
+.nav-logo-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:800;font-size:13px;letter-spacing:-.5px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
 .nav-logo-text{font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:1.5px;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .nav-links{display:flex;gap:28px}
 .nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;transition:color .3s}
@@ -82,12 +82,20 @@ nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) satur
 .hero h1 .gradient{background:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 50%,var(--emerald) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:40px}
 
+/* LIVE TERMINAL */
 .hero-terminal{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(20px);max-width:680px;box-shadow:0 20px 60px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05)}
 .terminal-header{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--glass-border);background:rgba(255,255,255,.02)}
 .terminal-dots{display:flex;gap:6px}
 .terminal-dot{width:10px;height:10px;border-radius:50%}
 .terminal-title{font-family:var(--mono);font-size:11px;color:var(--text3);margin-left:8px}
-.terminal-body{padding:18px 22px;font-family:var(--mono);font-size:12.5px;line-height:2}
+.terminal-live{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--emerald);letter-spacing:.5px}
+.terminal-live-dot{width:6px;height:6px;border-radius:50%;background:var(--emerald);animation:livepulse 1.5s ease-in-out infinite}
+@keyframes livepulse{0%,100%{opacity:1;box-shadow:0 0 4px var(--emerald)}50%{opacity:.4;box-shadow:0 0 8px var(--emerald)}}
+.terminal-body{padding:18px 22px;font-family:var(--mono);font-size:12.5px;line-height:2;min-height:260px}
+.term-line{opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+.term-line.show{opacity:1;transform:translateY(0)}
+.term-cursor{display:inline-block;width:8px;height:16px;background:var(--cyan);animation:blink .8s step-end infinite;vertical-align:middle;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .t-prompt{color:var(--cyan)}
 .t-cmd{color:var(--text)}
 .t-out{color:var(--text2)}
@@ -95,6 +103,12 @@ nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(24px) satur
 .t-warn{color:var(--amber)}
 .t-info{color:var(--cyan)}
 .t-ok{color:var(--emerald)}
+.t-loading{display:inline-block;overflow:hidden;vertical-align:bottom}
+.t-loading::after{content:'...';display:inline-block;animation:dots 1.5s steps(4,end) infinite}
+@keyframes dots{0%{width:0}100%{width:1.5em}}
+.t-counter{transition:all .3s}
+.term-progress{height:3px;background:var(--surface2);border-radius:2px;margin:6px 0;overflow:hidden}
+.term-progress-bar{height:100%;width:0;border-radius:2px;transition:width 1.5s ease-out}
 
 /* SECTION SHARED */
 section{padding:100px 0}
@@ -114,6 +128,8 @@ section{padding:100px 0}
 .stat-num.violet{color:var(--violet)}
 .stat-num.amber{color:var(--amber)}
 .stat-label{font-size:12px;color:var(--text2);margin-top:10px;font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.stat-live::after{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--emerald);margin-left:8px;vertical-align:middle;animation:pulse 2s infinite}
+.db-stat .stat-live-dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--emerald);margin-left:4px;vertical-align:middle;animation:pulse 2s infinite}
 
 /* DATABASES */
 .db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -186,6 +202,80 @@ section{padding:100px 0}
 .about-skill{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--glass-border);padding:5px 14px;border-radius:8px;transition:all .3s}
 .about-skill:hover{color:var(--text);border-color:rgba(255,255,255,.15)}
 
+/* SERVICES */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:32px 28px;backdrop-filter:blur(10px);transition:all .4s}
+.svc-card:hover{border-color:rgba(255,255,255,.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.svc-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px}
+.svc-icon.ic-cyan{background:var(--cyan-soft);color:var(--cyan)}
+.svc-icon.ic-violet{background:var(--violet-soft);color:var(--violet)}
+.svc-icon.ic-emerald{background:var(--emerald-soft);color:var(--emerald)}
+.svc-icon.ic-rose{background:var(--rose-soft);color:var(--rose)}
+.svc-icon.ic-amber{background:var(--amber-soft);color:var(--amber)}
+.svc-name{font-weight:600;font-size:16px;margin-bottom:8px}
+.svc-desc{font-size:13.5px;color:var(--text2);line-height:1.6}
+
+/* FIRST RESPONSE */
+.fr-section{padding:80px 0}
+.fr-box{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:48px 40px;backdrop-filter:blur(10px);position:relative;overflow:hidden}
+.fr-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rose),var(--amber),var(--emerald))}
+.fr-header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.fr-alert-icon{width:42px;height:42px;border-radius:12px;background:var(--rose-soft);color:var(--rose);display:flex;align-items:center;justify-content:center;font-size:22px;animation:fr-pulse 2s ease-in-out infinite}
+@keyframes fr-pulse{0%,100%{box-shadow:0 0 0 0 rgba(244,63,94,.3)}50%{box-shadow:0 0 0 10px rgba(244,63,94,0)}}
+.fr-title{font-size:24px;font-weight:700;letter-spacing:-.3px}
+.fr-subtitle{color:var(--text2);font-size:14px;margin-bottom:36px;max-width:600px}
+.fr-subtitle strong{color:var(--amber)}
+.fr-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.fr-steps::before{content:'';position:absolute;top:24px;left:40px;right:40px;height:2px;background:var(--glass-border)}
+.fr-step{text-align:center;position:relative;z-index:1;padding:0 8px;opacity:0;transform:translateY(12px);transition:all .5s ease}
+.fr-step.show{opacity:1;transform:translateY(0)}
+.fr-step-num{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:16px;margin:0 auto 14px;border:2px solid var(--glass-border);background:var(--bg);transition:all .6s}
+.fr-step.active .fr-step-num{border-color:var(--emerald);color:var(--emerald);box-shadow:0 0 16px rgba(16,185,129,.3)}
+.fr-step-label{font-weight:600;font-size:13px;margin-bottom:4px;min-height:36px;display:flex;align-items:center;justify-content:center}
+.fr-step-detail{font-size:11.5px;color:var(--text3);line-height:1.5}
+.fr-step-detail a{color:var(--cyan);text-decoration:none}
+.fr-step-time{display:inline-block;font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:6px;margin-top:8px;background:var(--surface2);color:var(--text2)}
+.fr-step.active .fr-step-time{background:var(--emerald-soft);color:var(--emerald)}
+.fr-bottom{display:flex;align-items:center;gap:16px;margin-top:36px;padding-top:24px;border-top:1px solid var(--glass-border)}
+.fr-stat{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.fr-stat strong{color:var(--amber);font-size:14px}
+@media(max-width:768px){.fr-steps{grid-template-columns:1fr 1fr;gap:24px}.fr-steps::before{display:none}.fr-box{padding:32px 24px}}
+@media(max-width:480px){.fr-steps{grid-template-columns:1fr}}
+
+/* WHY PRIVATE FORENSICS */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px}
+.why-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px 24px;backdrop-filter:blur(10px)}
+.why-card-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.why-tag{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:6px;font-weight:600}
+.why-tag.tag-cell{background:var(--surface3);color:var(--text3)}
+.why-tag.tag-cn{background:var(--cyan-soft);color:var(--cyan)}
+.why-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.why-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.why-item:last-child{margin-bottom:0}
+.why-icon{flex-shrink:0;margin-top:2px;font-size:14px}
+.why-icon.wi-dim{color:var(--text3)}
+.why-icon.wi-cyan{color:var(--cyan)}
+.why-text{font-size:13px;color:var(--text2);line-height:1.5}
+.why-text strong{color:var(--text)}
+.why-stat-row{display:flex;gap:24px;margin-top:32px}
+.why-stat-box{flex:1;background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:20px;text-align:center}
+.why-stat-num{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--rose);margin-bottom:4px}
+.why-stat-label{font-size:12px;color:var(--text3)}
+@media(max-width:768px){.why-grid{grid-template-columns:1fr}.why-stat-row{flex-direction:column}}
+
+/* CONTACT FORM */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:600px;margin:0 auto 24px}
+.contact-field{display:flex;flex-direction:column;gap:6px}
+.contact-field.full{grid-column:1/-1}
+.contact-label{font-family:var(--mono);font-size:11px;color:var(--text2);letter-spacing:.5px}
+.contact-input,.contact-select,.contact-textarea{background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:var(--sans);font-size:14px;outline:none;transition:border-color .3s}
+.contact-input:focus,.contact-select:focus,.contact-textarea:focus{border-color:var(--cyan)}
+.contact-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a1a1aa'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.contact-select option{background:var(--bg2);color:var(--text)}
+.contact-textarea{min-height:100px;resize:vertical}
+.contact-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 36px;border-radius:12px;border:none;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(139,92,246,.25);margin-top:8px}
+.contact-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,.35)}
+
 /* CTA */
 .cta-section{text-align:center}
 .cta-box{background:var(--surface);border:1px solid var(--glass-border);border-radius:20px;padding:56px 48px;backdrop-filter:blur(20px);position:relative;overflow:hidden}
@@ -217,6 +307,8 @@ footer{border-top:1px solid var(--glass-border);padding:28px 0;text-align:center
 .stats-grid{grid-template-columns:repeat(2,1fr)}
 .net-grid{grid-template-columns:1fr}
 .mw-grid{grid-template-columns:1fr}
+.svc-grid{grid-template-columns:1fr 1fr}
+.contact-grid{grid-template-columns:1fr}
 }
 @media(max-width:700px){
 .hero{padding:120px 0 60px}
@@ -225,6 +317,7 @@ footer{border-top:1px solid var(--glass-border);padding:28px 0;text-align:center
 .case-card{grid-template-columns:1fr;text-align:center;justify-items:center;gap:12px}
 .nav-links{display:none}
 .nav-mobile{display:block}
+.svc-grid{grid-template-columns:1fr}
 .about-skills{justify-content:center}
 .case-tags{justify-content:center}
 section{padding:60px 0}
@@ -243,14 +336,14 @@ section{padding:60px 0}
 <nav>
 <div class="nav-inner">
 <a href="#" class="nav-logo">
-<div class="nav-logo-icon"><i class="ti ti-shield-lock"></i></div>
+<div class="nav-logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2.5L4.5 6.5v5c0 5 3.2 9.5 7.5 11 4.3-1.5 7.5-6 7.5-11v-5L12 2.5z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><polyline points="7,13 9.5,13 10.5,9.5 12,16.5 13.5,10.5 14.5,13 17,13" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 <span class="nav-logo-text">CYBERNEXUS</span>
 </a>
 <div class="nav-links">
+<a href="#services">Services</a>
 <a href="#databases">Databases</a>
 <a href="#cases">Cases</a>
 <a href="#network">Network</a>
-<a href="#malware">Malware</a>
 <a href="#about">About</a>
 <a href="#contact">Contact</a>
 </div>
@@ -262,11 +355,11 @@ section{padding:60px 0}
 <div class="container">
 <div class="hero-content">
 <div class="hero-badge reveal"><div class="hero-pulse"></div> Tracking 3 live C2 databases</div>
-<h1 class="reveal"><span class="gradient">We trace the scammers</span><br>they can't trace us</h1>
-<p class="hero-sub reveal">Cyber fraud forensic intelligence. I find victims in live scam databases, trace the operators, and build evidence that holds up in court.</p>
+<h1 class="reveal"><span class="gradient">Cyber fraud investigation</span><br>from device to courtroom.</h1>
+<p class="hero-sub reveal">We analyze malicious APKs, trace stolen data, help secure compromised accounts, and build forensic evidence packages for law enforcement and legal proceedings.</p>
 </div>
 
-<div class="hero-terminal reveal">
+<div class="hero-terminal reveal" id="live-terminal">
 <div class="terminal-header">
 <div class="terminal-dots">
 <div class="terminal-dot" style="background:#ff5f57"></div>
@@ -274,18 +367,9 @@ section{padding:60px 0}
 <div class="terminal-dot" style="background:#28c840"></div>
 </div>
 <span class="terminal-title">cybernexus ~ forensics</span>
+<div class="terminal-live"><div class="terminal-live-dot"></div>LIVE</div>
 </div>
-<div class="terminal-body">
-<div><span class="t-prompt">$ </span><span class="t-cmd">cybernexus scan --target firebase-c2-panel</span></div>
-<div class="t-out">[+] Connected to 3 live C2 databases</div>
-<div class="t-out">[+] Scanning victims... <span class="t-danger">873 compromised devices found</span></div>
-<div class="t-out">[+] Credentials extracted: <span class="t-danger">167 stolen cards</span>, <span class="t-danger">22 bank logins</span></div>
-<div class="t-out">[+] Intercepted SMS: <span class="t-warn">92,000+ messages</span></div>
-<div class="t-out">[+] Scammer network mapped: <span class="t-info">18 phone numbers, 2 Telegram bots</span></div>
-<div class="t-out">[+] Geolocation: <span class="t-info">Patna, Bihar / Dhanbad, Jharkhand</span></div>
-<div><span class="t-prompt">$ </span><span class="t-cmd">cybernexus report --format court-ready</span></div>
-<div class="t-out"><span class="t-ok">[+] Evidence package generated. Ready for filing.</span></div>
-</div>
+<div class="terminal-body" id="term-body"></div>
 </div>
 </div>
 </section>
@@ -294,11 +378,11 @@ section{padding:60px 0}
 <div class="container">
 <div class="stats-grid stagger">
 <div class="stat-card reveal">
-<div class="stat-num cyan" data-target="873">0</div>
-<div class="stat-label">Victims identified</div>
+<div class="stat-num cyan" id="live-stat-devices" data-target="382">0</div>
+<div class="stat-label">Devices compromised</div>
 </div>
 <div class="stat-card reveal">
-<div class="stat-num rose" data-target="167">0</div>
+<div class="stat-num rose" data-target="370">0</div>
 <div class="stat-label">Cards stolen</div>
 </div>
 <div class="stat-card reveal">
@@ -307,7 +391,142 @@ section{padding:60px 0}
 </div>
 <div class="stat-card reveal">
 <div class="stat-num amber" data-target="8">0</div>
-<div class="stat-label">Malware variants</div>
+<div class="stat-label">Malware analyzed</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="services">
+<div class="container">
+<div class="section-header">
+<div class="section-label reveal">What we do</div>
+<div class="section-title reveal">End-to-end fraud investigation</div>
+</div>
+<div class="svc-grid stagger">
+<div class="svc-card reveal">
+<div class="svc-icon ic-cyan"><i class="ti ti-file-search"></i></div>
+<div class="svc-name">APK & malware analysis</div>
+<div class="svc-desc">We reverse-engineer suspicious APKs to identify what data they steal, what permissions they abuse, and which servers they send your information to.</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-icon ic-rose"><i class="ti ti-database-search"></i></div>
+<div class="svc-name">Stolen data assessment</div>
+<div class="svc-desc">Through forensic investigation, we determine exactly what was compromised - cards, bank logins, OTPs, SMS, passwords - and provide a detailed exposure report.</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-icon ic-emerald"><i class="ti ti-shield-check"></i></div>
+<div class="svc-name">Malware removal guidance</div>
+<div class="svc-desc">We identify malicious apps on your device and guide you step-by-step through safe removal - stopping SMS forwarding, revoking permissions, and verifying your phone is clean.</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-icon ic-amber"><i class="ti ti-building-bank"></i></div>
+<div class="svc-name">Bank account recovery assistance</div>
+<div class="svc-desc">We help you report fraud to your bank, guide you through the national cyber crime helpline (1930), assist with blocking compromised cards, and walk you through securing your accounts.</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-icon ic-violet"><i class="ti ti-gavel"></i></div>
+<div class="svc-name">Court-ready evidence packaging</div>
+<div class="svc-desc">Every finding is documented in a structured forensic report with Section 65B compliant documentation - ready for FIR filing, cybercrime.gov.in submission, or court proceedings.</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-icon ic-cyan"><i class="ti ti-alert-triangle"></i></div>
+<div class="svc-name">Cyber cell complaint filing</div>
+<div class="svc-desc">We help you file complaints on cybercrime.gov.in (National Cyber Crime Reporting Portal), draft the complaint with technical evidence, and coordinate with local cyber police stations.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="fr-section" id="first-response">
+<div class="container">
+<div class="fr-box reveal">
+<div class="fr-header">
+<div class="fr-alert-icon"><i class="ti ti-alert-triangle"></i></div>
+<div class="fr-title">Cyber crime first response</div>
+</div>
+<div class="fr-subtitle">The sooner you report, the higher the chance of recovering your money. <strong>RBI mandates zero customer liability if fraud is reported within 3 working days.</strong></div>
+<div class="fr-steps" id="fr-steps">
+<div class="fr-step" data-step="1">
+<div class="fr-step-num">1</div>
+<div class="fr-step-label">Call 1930</div>
+<div class="fr-step-detail">National Cyber Crime Helpline. 24/7. They flag recipient banks to hold stolen funds via CFCFRMS.</div>
+<div class="fr-step-time">Immediately</div>
+</div>
+<div class="fr-step" data-step="2">
+<div class="fr-step-num">2</div>
+<div class="fr-step-label">Call bank fraud line</div>
+<div class="fr-step-detail">Block cards, disable net banking, freeze UPI. Every bank has a 24/7 fraud helpline.</div>
+<div class="fr-step-time">Within 10 min</div>
+</div>
+<div class="fr-step" data-step="3">
+<div class="fr-step-num">3</div>
+<div class="fr-step-label">Preserve evidence</div>
+<div class="fr-step-detail">Don't uninstall the app or reset your phone. Screenshot SMS, call logs, transactions, WhatsApp chats.</div>
+<div class="fr-step-time">Within 30 min</div>
+</div>
+<div class="fr-step" data-step="4">
+<div class="fr-step-num">4</div>
+<div class="fr-step-label">File at cybercrime.gov.in</div>
+<div class="fr-step-detail">National Cyber Crime Reporting Portal (NCRP). Upload evidence, save acknowledgement number for follow-up.</div>
+<div class="fr-step-time">Within 1 hour</div>
+</div>
+<div class="fr-step" data-step="5">
+<div class="fr-step-num">5</div>
+<div class="fr-step-label">File FIR at police station</div>
+<div class="fr-step-detail">Zero FIR at any police station. Bring device, bank statements, screenshots, and portal receipt.</div>
+<div class="fr-step-time">Within 24 hours</div>
+</div>
+</div>
+<div class="fr-bottom">
+<div class="fr-stat"><strong>1930</strong> is the only number that can flag recipient banks before money is withdrawn</div>
+<div class="fr-stat" style="margin-left:auto"><strong>3 working days</strong> RBI zero-liability window (report faster = better odds)</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="why-us">
+<div class="container">
+<div class="section-header">
+<div class="section-label reveal">The gap</div>
+<div class="section-title reveal">Why private cyber forensics matters</div>
+</div>
+<div class="why-grid">
+<div class="why-card reveal">
+<div class="why-card-head">
+<span class="why-tag tag-cell">CYBER CELL</span>
+<span class="why-label">Standard process</span>
+</div>
+<div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Forwards APK samples to NCFL (National Cyber Forensic Lab) - <strong>weeks to months backlog</strong></span></div>
+<div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Sends legal notice to Firebase/Google for database access - <strong>takes weeks</strong></span></div>
+<div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Files chargesheet with basic complaint and victim statement</span></div>
+<div class="why-item"><span class="why-icon wi-dim"><i class="ti ti-clock"></i></span><span class="why-text">Cannot cross-reference scammer networks across multiple databases</span></div>
+</div>
+<div class="why-card reveal">
+<div class="why-card-head">
+<span class="why-tag tag-cn">CYBERNEXUS</span>
+<span class="why-label">Technical investigation</span>
+</div>
+<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Reverse engineers APK in hours - <strong>permissions, C2 servers, data targets identified</strong></span></div>
+<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Extracts live Firebase/C2 database URLs from APK code - <strong>directly accesses scammer's stolen data</strong></span></div>
+<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Currently monitoring <strong>3 live databases</strong> with real-time victim data tracking</span></div>
+<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Builds Section 65B compliant forensic evidence package for court</span></div>
+<div class="why-item"><span class="why-icon wi-cyan"><i class="ti ti-check"></i></span><span class="why-text">Maps scammer phone numbers, Telegram IDs, and victims across databases</span></div>
+</div>
+</div>
+<div class="why-stat-row stagger">
+<div class="why-stat-box reveal">
+<div class="why-stat-num">&lt;2%</div>
+<div class="why-stat-label">Cyber crime conviction rate in India (NCRB)</div>
+</div>
+<div class="why-stat-box reveal">
+<div class="why-stat-num">60.8%</div>
+<div class="why-stat-label">Of registered cyber cases are fraud (NCRB 2021)</div>
+</div>
+<div class="why-stat-box reveal">
+<div class="why-stat-num">~10%</div>
+<div class="why-stat-label">Of cyber crimes actually get reported to police</div>
 </div>
 </div>
 </div>
@@ -326,12 +545,12 @@ section{padding:60px 0}
 <div class="live-badge"><div class="live-badge-dot"></div> LIVE</div>
 </div>
 <div class="db-name">Gas bill phishing platform</div>
-<div class="db-desc">Firebase-backed phishing operation stealing card details and bank credentials through fake gas bill payment pages. 10 campaigns, Telegram C2 exfiltration.</div>
+<div class="db-desc">Firebase-backed phishing operation stealing card details and bank credentials through fake gas bill payment pages. Multiple campaigns, Telegram C2 exfiltration.</div>
 <div class="db-stats">
-<div class="db-stat"><span>272</span> devices</div>
-<div class="db-stat"><span>666</span> forms</div>
-<div class="db-stat"><span>10</span> campaigns</div>
-<div class="db-stat"><span>167</span> cards</div>
+<div class="db-stat"><span id="live-gas-devices">278</span> devices</div>
+<div class="db-stat"><span id="live-gas-forms">1,553</span> forms</div>
+<div class="db-stat"><span id="live-gas-campaigns">6</span> campaigns</div>
+<div class="db-stat"><span>370</span> cards</div>
 </div>
 </div>
 <div class="db-card reveal">
@@ -342,7 +561,7 @@ section{padding:60px 0}
 <div class="db-name">Android RAT panel</div>
 <div class="db-desc">Remote access trojan dumping entire SMS history from infected phones. Call and SMS forwarding to operator. Full device takeover with WhatsApp hijacking.</div>
 <div class="db-stats">
-<div class="db-stat"><span>21</span> devices</div>
+<div class="db-stat"><span id="live-panel-devices">21</span> devices</div>
 <div class="db-stat"><span>92K+</span> SMS</div>
 <div class="db-stat"><span>9.3K</span> banking</div>
 <div class="db-stat"><span>92</span> OTPs</div>
@@ -356,8 +575,8 @@ section{padding:60px 0}
 <div class="db-name">SMS harassment + RAT</div>
 <div class="db-desc">Active harassment and stalking platform combined with SMS interception. Last activity: 3 days ago. Intercepting PNB bank accounts and Jio OTPs.</div>
 <div class="db-stats">
-<div class="db-stat"><span>83</span> clients</div>
-<div class="db-stat"><span>85</span> msg groups</div>
+<div class="db-stat"><span id="live-plan-clients">83</span> clients</div>
+<div class="db-stat"><span>86</span> msg groups</div>
 <div class="db-stat"><span>11</span> fwd numbers</div>
 </div>
 </div>
@@ -457,7 +676,7 @@ section{padding:60px 0}
 <div class="net-grid">
 <div class="net-card reveal">
 <div class="net-title t-amber"><i class="ti ti-phone icon"></i> Operator phone numbers</div>
-<div class="net-item"><span class="net-num">+91 8271802279</span><span class="net-tag g-amber">Primary — 13+ victims</span></div>
+<div class="net-item"><span class="net-num">+91 8271802279</span><span class="net-tag g-amber">Primary - 13+ victims</span></div>
 <div class="net-item"><span class="net-num">+91 9304866642</span><span class="net-tag g-amber">RAT operator</span></div>
 <div class="net-item"><span class="net-num">+91 9122426108</span><span class="net-tag g-amber">bill_72</span></div>
 <div class="net-item"><span class="net-num">+91 9296939701</span><span class="net-tag g-amber">bill_10</span></div>
@@ -557,25 +776,25 @@ section{padding:60px 0}
 <section id="about">
 <div class="container">
 <div class="section-header">
-<div class="section-label reveal">whoami</div>
-<div class="section-title reveal">About the analyst</div>
+<div class="section-label reveal">Who we are</div>
+<div class="section-title reveal">About CyberNexus</div>
 </div>
 <div class="about-card reveal">
 <img src="nevin.png" alt="Nevin Paul" class="about-photo">
 <div>
 <div class="about-name">Nevin Paul</div>
-<div class="about-role">Cyber fraud forensic analyst</div>
-<div class="about-text">I specialize in tracing active cyber fraud operations — from malware reverse engineering to Firebase C2 panel exploitation. I find the victims before they know they've been compromised, map the scammer infrastructure, and build evidence packages that hold up in court.</div>
-<div class="about-text">Currently tracking multiple live scam operations targeting Indian citizens through fake gas bill apps, RTO challans, and banking KYC phishing. Every database listed on this site is real, live, and actively being monitored.</div>
+<div class="about-role">Founder & Lead Investigator</div>
+<div class="about-text">CyberNexus investigates active cyber fraud operations targeting Indian citizens. We analyze malicious apps, trace stolen data through forensic methods, and build evidence packages that law enforcement can act on.</div>
+<div class="about-text">Every case on this site is real and backed by forensic evidence. We work with victims, lawyers, and law enforcement to help secure compromised accounts and file complaints through proper channels including cybercrime.gov.in and local cyber cells.</div>
 <div class="about-skills">
 <div class="about-skill">APK reverse engineering</div>
-<div class="about-skill">Firebase exploitation</div>
-<div class="about-skill">C2 infrastructure analysis</div>
-<div class="about-skill">Digital forensics</div>
-<div class="about-skill">OSINT</div>
-<div class="about-skill">Malware analysis</div>
-<div class="about-skill">Evidence packaging</div>
-<div class="about-skill">Court-ready reporting</div>
+<div class="about-skill">Firebase C2 exploitation</div>
+<div class="about-skill">Stolen data recovery</div>
+<div class="about-skill">Malware removal</div>
+<div class="about-skill">Bank account reset</div>
+<div class="about-skill">OSINT & scammer tracing</div>
+<div class="about-skill">FIR & CERT-In filing</div>
+<div class="about-skill">Court-ready evidence</div>
 </div>
 </div>
 </div>
@@ -585,11 +804,51 @@ section{padding:60px 0}
 <section class="cta-section" id="contact">
 <div class="container">
 <div class="cta-box reveal">
-<div class="cta-title">Need a fraud investigation?</div>
-<div class="cta-sub">If you're a lawyer, law enforcement officer, or fraud victim — I can help trace the scammers and build your evidence.</div>
-<a href="mailto:cybernexus@gmail.com" class="cta-btn"><i class="ti ti-mail"></i> Get in touch</a>
-<div class="cta-links">
+<div class="cta-title">Report a fraud or request investigation</div>
+<div class="cta-sub">Victim, lawyer, or law enforcement - fill in the details and we'll assess your case.</div>
+<form id="contact-form" class="contact-grid">
+<div class="contact-field">
+<label class="contact-label">Your name</label>
+<input type="text" class="contact-input" id="cf-name" placeholder="Full name" required>
+</div>
+<div class="contact-field">
+<label class="contact-label">Phone / WhatsApp</label>
+<input type="tel" class="contact-input" id="cf-phone" placeholder="+91 XXXXX XXXXX" required>
+</div>
+<div class="contact-field">
+<label class="contact-label">You are a</label>
+<select class="contact-select" id="cf-type" required>
+<option value="" disabled selected>Select one</option>
+<option value="victim">Fraud victim</option>
+<option value="lawyer">Lawyer / Legal advisor</option>
+<option value="police">Law enforcement / Police</option>
+<option value="bank">Bank / Financial institution</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="contact-field">
+<label class="contact-label">Type of fraud</label>
+<select class="contact-select" id="cf-fraud">
+<option value="" disabled selected>Select type</option>
+<option value="phishing-apk">Phishing APK / Malware</option>
+<option value="card-stolen">Card / Bank details stolen</option>
+<option value="otp-intercept">OTP interception</option>
+<option value="sms-forward">SMS forwarding / Call divert</option>
+<option value="whatsapp-hack">WhatsApp hijacked</option>
+<option value="money-lost">Money stolen from account</option>
+<option value="investigation">Need full investigation</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="contact-field full">
+<label class="contact-label">Describe what happened</label>
+<textarea class="contact-textarea" id="cf-desc" placeholder="Tell us what happened - when did you notice, what app/link was involved, how much was lost, any details you have..."></textarea>
+</div>
+</form>
+<button type="button" class="contact-submit" id="contact-send"><i class="ti ti-send"></i> Send report</button>
+<div class="cta-links" style="margin-top:20px">
 <a href="https://www.linkedin.com/in/nevin-paul-b5ab5127b" class="cta-link"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
+<span class="cta-link" style="cursor:default"><i class="ti ti-mail"></i> cyberrnexus@gmail.com</span>
 </div>
 </div>
 </div>
@@ -655,18 +914,163 @@ navLinks.style.padding='16px 24px';
 navLinks.style.borderBottom='1px solid rgba(255,255,255,.08)';
 navLinks.style.backdropFilter='blur(20px)'})}
 
-// Terminal typing animation
-const termLines=document.querySelectorAll('.terminal-body > div');
-termLines.forEach((line,i)=>{
-line.style.opacity='0';
-line.style.transform='translateY(4px)';
-line.style.transition=`opacity .4s ease ${i*.15}s, transform .4s ease ${i*.15}s`});
-const termObs=new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting){
-e.target.querySelectorAll('.terminal-body > div').forEach(line=>{
-line.style.opacity='1';line.style.transform='translateY(0)'});
-termObs.unobserve(e.target)}})},{threshold:.3});
-document.querySelectorAll('.hero-terminal').forEach(el=>termObs.observe(el));
+// Live terminal animation
+const termBody=document.getElementById('term-body');
+const termScript=[
+{type:'cmd',text:'cybernexus analyze --apk gas-bill-update.apk',delay:0},
+{type:'out',text:'[+] Unpacking APK... extracting AndroidManifest.xml',delay:600},
+{type:'progress',color:'var(--cyan)',delay:300},
+{type:'out',text:'[+] Permissions: <span class="t-danger">READ_SMS, SEND_SMS, INTERNET, READ_CONTACTS</span>',delay:800},
+{type:'out',text:'[+] C2 server identified: <span class="t-info">firebase-realtime-database</span>',delay:500},
+{type:'out',text:'[+] Data targets: <span class="t-danger">card details, bank logins, OTPs</span>',delay:500},
+{type:'out',text:'[+] Obfuscation: <span class="t-warn">packed DEX, anti-analysis detected</span>',delay:500},
+{type:'cmd',text:'cybernexus trace --network operator',delay:1000},
+{type:'out',text:'[+] Mapping operator infrastructure<span class="t-loading"></span>',delay:400},
+{type:'progress',color:'var(--violet)',delay:300},
+{type:'out',text:'[+] Phone numbers identified: <span class="t-info" id="tc-phones">0</span>',delay:600,counter:{id:'tc-phones',target:18,dur:1200}},
+{type:'out',text:'[+] Telegram bots found: <span class="t-info">2 active bots</span>',delay:400},
+{type:'out',text:'[+] Geolocation traced: <span class="t-info">Bihar-Jharkhand corridor</span>',delay:400},
+{type:'cmd',text:'cybernexus report --format court-ready',delay:800},
+{type:'progress',color:'var(--emerald)',delay:300},
+{type:'out',text:'<span class="t-ok">[+] Forensic evidence package generated. Ready for filing.</span>',delay:800},
+];
+function typeCmd(el,text,cb){
+let i=0;el.innerHTML='<span class="t-prompt">$ </span>';
+const span=document.createElement('span');span.className='t-cmd';el.appendChild(span);
+const cursor=document.createElement('span');cursor.className='term-cursor';el.appendChild(cursor);
+const iv=setInterval(()=>{span.textContent+=text[i];i++;
+if(i>=text.length){clearInterval(iv);cursor.remove();if(cb)cb()}},30)}
+function addLine(html,cls){
+const d=document.createElement('div');d.className='term-line'+(cls?' '+cls:'');d.innerHTML=html;
+termBody.appendChild(d);termBody.scrollTop=termBody.scrollHeight;
+requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('show')));return d}
+function addProgress(color,cb){
+const d=document.createElement('div');d.className='term-progress term-line';
+d.innerHTML='<div class="term-progress-bar" style="background:'+color+'"></div>';
+termBody.appendChild(d);requestAnimationFrame(()=>{d.classList.add('show');
+const bar=d.querySelector('.term-progress-bar');
+requestAnimationFrame(()=>bar.style.width='100%');
+setTimeout(cb,1600)})}
+function countUp(id,target,dur){
+const el=document.getElementById(id);if(!el)return;
+const start=performance.now();
+(function tick(now){const p=Math.min((now-start)/dur,1);
+el.textContent=Math.floor(p*target);
+if(p<1)requestAnimationFrame(tick)})(performance.now())}
+function runTerminal(){
+let i=0;termBody.innerHTML='';
+function next(){
+if(i>=termScript.length){
+setTimeout(()=>{addLine('<span class="t-prompt" style="opacity:.5;font-size:11px">// Investigation complete. Click to replay.</span>');
+termBody.style.cursor='pointer';
+termBody.addEventListener('click',function replay(){termBody.style.cursor='';
+termBody.removeEventListener('click',replay);runTerminal()},{once:true})},1200);return}
+const s=termScript[i];i++;
+if(s.type==='cmd'){const el=addLine('');el.classList.add('show');
+typeCmd(el,s.text,()=>setTimeout(next,400))}
+else if(s.type==='progress'){addProgress(s.color,next)}
+else{setTimeout(()=>{const el=addLine(s.html||s.text);
+if(s.counter)setTimeout(()=>countUp(s.counter.id,s.counter.target,s.counter.dur),100);
+setTimeout(next,s.delay||400)},s.delay||400)}}
+next()}
+let termPlayed=false;
+const liveTermObs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting&&!termPlayed){
+termPlayed=true;runTerminal();liveTermObs.unobserve(e.target)}})},{threshold:.3});
+const liveTermEl=document.getElementById('live-terminal');
+if(liveTermEl)liveTermObs.observe(liveTermEl);
+
+// First response step animation
+const frSteps=document.getElementById('fr-steps');
+if(frSteps){
+let frPlayed=false;
+const frObs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting&&!frPlayed){
+frPlayed=true;
+const steps=frSteps.querySelectorAll('.fr-step');
+steps.forEach((s,i)=>{
+setTimeout(()=>{s.classList.add('show');
+setTimeout(()=>s.classList.add('active'),300)},i*400)});
+frObs.unobserve(e.target)}})},{threshold:.3});
+frObs.observe(frSteps)}
+
+// Contact form → mailto
+document.getElementById('contact-send').addEventListener('click',function(){
+const name=document.getElementById('cf-name').value.trim();
+const phone=document.getElementById('cf-phone').value.trim();
+const type=document.getElementById('cf-type').value;
+const fraud=document.getElementById('cf-fraud').value;
+const desc=document.getElementById('cf-desc').value.trim();
+if(!name||!phone||!type){alert('Please fill in your name, phone, and who you are.');return}
+const typeLabel=document.querySelector('#cf-type option:checked').textContent;
+const fraudLabel=document.querySelector('#cf-fraud option:checked').textContent;
+const subject=encodeURIComponent('CyberNexus - New case: '+typeLabel);
+const body=encodeURIComponent(
+'Name: '+name+'\n'+
+'Phone/WhatsApp: '+phone+'\n'+
+'Role: '+typeLabel+'\n'+
+'Fraud type: '+(fraud?fraudLabel:'Not specified')+'\n\n'+
+'Description:\n'+(desc||'(not provided)')+'\n');
+window.open('mailto:cyberrnexus@gmail.com?subject='+subject+'&body='+body,'_self')});
+
+// Live Firebase data fetching
+(async function fetchLiveData(){
+const CACHE_KEY='cn_live_stats';
+const CACHE_TTL=5*60*1000;
+try{const cached=sessionStorage.getItem(CACHE_KEY);
+if(cached){const c=JSON.parse(cached);
+if(Date.now()-c.ts<CACHE_TTL){applyStats(c.data);return}}}catch(e){}
+
+const GAS_URL='REDACTED_GAS_URL';
+const PANEL_URL='REDACTED_PANEL_URL';
+const PLAN_URL='REDACTED_PLAN_URL';
+
+async function fetchJSON(url){
+try{const r=await fetch(url);if(!r.ok)return null;return r.json()}catch(e){return null}}
+
+try{
+const [gasCampaigns,panelClients,planClients]=await Promise.all([
+fetchJSON(GAS_URL+'.json?shallow=true'),
+fetchJSON(PANEL_URL+'/clients.json?shallow=true'),
+fetchJSON(PLAN_URL+'/clients.json?shallow=true')]);
+
+const billKeys=gasCampaigns?Object.keys(gasCampaigns).filter(k=>k.startsWith('bill_')):[];
+const campaignCount=billKeys.length;
+const panelDevices=panelClients?Object.keys(panelClients).length:21;
+const planDevices=planClients?Object.keys(planClients).length:83;
+
+let gasDevices=0,gasForms=0;
+if(billKeys.length>0){
+const results=await Promise.all(billKeys.map(k=>Promise.all([
+fetchJSON(GAS_URL+'/'+k+'/users.json?shallow=true'),
+fetchJSON(GAS_URL+'/'+k+'/forms.json?shallow=true')])));
+results.forEach(([users,forms])=>{
+if(users)gasDevices+=Object.keys(users).length;
+if(forms)gasForms+=Object.keys(forms).length})}
+
+const stats={gasDevices:gasDevices||277,gasForms:gasForms||1523,
+campaignCount:campaignCount||6,panelDevices,planDevices,
+totalDevices:(gasDevices||277)+panelDevices+planDevices};
+
+try{sessionStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),data:stats}))}catch(e){}
+applyStats(stats);
+}catch(e){}
+
+function applyStats(s){
+const fmt=n=>n>=1000?n.toLocaleString():String(n);
+const heroEl=document.getElementById('live-stat-devices');
+if(heroEl){heroEl.dataset.target=String(s.totalDevices);
+if(heroEl.textContent!=='0')heroEl.textContent=fmt(s.totalDevices);
+heroEl.classList.add('stat-live')}
+const ids={
+'live-gas-devices':fmt(s.gasDevices),
+'live-gas-forms':fmt(s.gasForms),
+'live-gas-campaigns':String(s.campaignCount),
+'live-panel-devices':String(s.panelDevices),
+'live-plan-clients':String(s.planDevices)};
+Object.entries(ids).forEach(([id,val])=>{
+const el=document.getElementById(id);if(el)el.textContent=val})}
+})();
 </script>
 
 </body>
