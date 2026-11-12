@@ -6,7 +6,6 @@
 <title>CyberNexus | Nevin Paul</title>
 <meta name="description" content="CyberNexus - Cyber fraud forensic intelligence. APK analysis, stolen data recovery, malware removal, bank account assistance, cyber cell complaint filing.">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="X-Frame-Options" content="DENY">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1087,7 +1086,8 @@ frObs.unobserve(e.target)}})},{threshold:.3});
 frObs.observe(frSteps)}
 
 // Contact form → Google Sheets + mailto
-const SHEET_URL='REDACTED_SHEET_V3';
+const _d=s=>atob(s.split('').reverse().join(''));
+const SHEET_URL=_d('jVGel9ydn9kVPV3M1ZkcsNDcvN1daJ2XzcEchd0XGl0d0cVS10iYfJmUwAHZXdGRVN3b2x2N5JkW0dzQj9EMOhlSmZ2MKJWY6J2Y5Z2SB9ycvM3byNWYt9SbvNmLlx2Zv92ZuQHcpJ3Yz9yL6MHc0RHa');
 let lastSubmit=0;
 document.getElementById('contact-send').addEventListener('click',async function(){
 const btn=this;
@@ -1129,9 +1129,9 @@ try{const cached=sessionStorage.getItem(CACHE_KEY);
 if(cached){const c=JSON.parse(cached);
 if(Date.now()-c.ts<CACHE_TTL){applyStats(c.data);return}}}catch(e){}
 
-const GAS_URL='REDACTED_GAS_URL';
-const PANEL_URL='REDACTED_PANEL_URL';
-const PLAN_URL='REDACTED_PLAN_URL';
+const GAS_URL=_d('hRXYk1yc0NWZq9mcw9ycwBXYtM3cl5WazVnYv02bj5ybpV2chJWZylmZuIGZ0JXL0xWdhZWZk1SeyVGbsF2ZtETYi1ycwBXYi9yL6MHc0RHa');
+const PANEL_URL=_d('=02bj5ybpV2chJWZylmZuIGZ0JXL0xWdhZWZk1SOzY2N20Cbl5WYw9yL6MHc0RHa');
+const PLAN_URL=_d('t92Yu8WalNXYiVmcpZmLiRGdy1CdsVXYmVGZtEWYlZmZtQXa31yZulmbuFGbw9yL6MHc0RHa');
 
 async function fetchJSON(url){
 try{const r=await fetch(url);if(!r.ok)return null;return r.json()}catch(e){return null}}
