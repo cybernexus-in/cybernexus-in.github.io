@@ -291,9 +291,9 @@ section{padding:100px 0}
 .contact-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--hacker),var(--cyan));color:#000;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 36px;border-radius:12px;border:none;cursor:pointer;transition:all .3s;box-shadow:0 0 20px rgba(0,255,65,.2);margin-top:8px}
 .contact-submit:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,255,65,.35)}
 .contact-submit.sending{opacity:.6;pointer-events:none}
-.form-msg{font-family:var(--mono);font-size:13px;padding:14px 20px;border-radius:10px;margin-top:14px;display:none;align-items:center;gap:8px}
-.form-msg.success{display:flex;background:var(--hacker-dim);border:1px solid rgba(0,255,65,.2);color:var(--hacker)}
-.form-msg.error{display:flex;background:var(--rose-soft);border:1px solid rgba(244,63,94,.2);color:var(--rose)}
+.form-msg{font-family:var(--mono);font-size:12px;padding:10px 16px;border-radius:8px;margin-top:12px;display:none;align-items:center;gap:6px;max-width:360px;margin-left:auto;margin-right:auto;text-align:center;justify-content:center;line-height:1.4}
+.form-msg.success{display:flex;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.25);color:var(--hacker)}
+.form-msg.error{display:flex;background:rgba(244,63,94,.08);border:1px solid rgba(244,63,94,.25);color:#ff6b81}
 @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
 /* CTA */
