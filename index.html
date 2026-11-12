@@ -291,9 +291,9 @@ section{padding:100px 0}
 .contact-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--hacker),var(--cyan));color:#000;font-family:var(--mono);font-weight:600;font-size:14px;padding:14px 36px;border-radius:12px;border:none;cursor:pointer;transition:all .3s;box-shadow:0 0 20px rgba(0,255,65,.2);margin-top:8px}
 .contact-submit:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,255,65,.35)}
 .contact-submit.sending{opacity:.6;pointer-events:none}
-.form-msg{font-family:var(--mono);font-size:12px;padding:10px 16px;border-radius:8px;margin-top:12px;display:none;align-items:center;gap:6px;max-width:360px;margin-left:auto;margin-right:auto;text-align:center;justify-content:center;line-height:1.4}
-.form-msg.success{display:flex;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.25);color:var(--hacker)}
-.form-msg.error{display:flex;background:rgba(244,63,94,.08);border:1px solid rgba(244,63,94,.25);color:#ff6b81}
+.form-msg{font-family:var(--mono);font-size:12px;padding:8px 20px;border-radius:20px;margin-top:14px;display:none;align-items:center;gap:6px;width:fit-content;margin-left:auto;margin-right:auto;text-align:center;justify-content:center;line-height:1.4;white-space:nowrap}
+.form-msg.success{display:flex;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);color:var(--hacker)}
+.form-msg.error{display:flex;background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.2);color:#ff6b81}
 @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
 /* CTA */
@@ -1092,7 +1092,7 @@ const phone=document.getElementById('cf-phone').value.trim();
 const type=document.getElementById('cf-type').value;
 const fraud=document.getElementById('cf-fraud').value;
 const desc=document.getElementById('cf-desc').value.trim();
-if(!name||!phone||!type){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Please fill in your name, phone, and who you are.';return}
+if(!name||!phone||!type){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Name, phone and role are required.';return}
 const typeLabel=document.querySelector('#cf-type option:checked').textContent;
 const fraudLabel=document.querySelector('#cf-fraud option:checked').textContent;
 btn.classList.add('sending');btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Sending...';
@@ -1105,7 +1105,7 @@ const body=encodeURIComponent('Name: '+name+'\nPhone/WhatsApp: '+phone+'\nRole: 
 window.open('mailto:cyberrnexus@gmail.com?subject='+subject+'&body='+body,'_self');
 btn.classList.remove('sending');btn.innerHTML='<i class="ti ti-send"></i> Send report';
 msgEl.className='form-msg success';
-msgEl.innerHTML='<i class="ti ti-check"></i> '+(saved?'Report saved & email opened. We\'ll reach out within 24 hours.':'Email opened. Fill in the details and send it to us.');
+msgEl.innerHTML='<i class="ti ti-check"></i> '+(saved?'Report sent. We\'ll reach out within 24 hours.':'Email opened. Fill in the details and send it to us.');
 document.getElementById('cf-name').value='';document.getElementById('cf-phone').value='';document.getElementById('cf-desc').value='';});
 
 // Live Firebase data fetching
