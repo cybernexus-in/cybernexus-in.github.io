@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyberNexus | Nevin Paul</title>
 <meta name="description" content="CyberNexus - Cyber fraud forensic intelligence. APK analysis, stolen data recovery, malware removal, bank account assistance, cyber cell complaint filing.">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/tabler-icons.min.css">
@@ -858,6 +861,7 @@ section{padding:60px 0}
 <label class="contact-label">Describe what happened</label>
 <textarea class="contact-textarea" id="cf-desc" placeholder="Tell us what happened - when did you notice, what app/link was involved, how much was lost, any details you have..."></textarea>
 </div>
+<div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" id="cf-website" tabindex="-1" autocomplete="off"></div>
 </form>
 <button type="button" class="contact-submit" id="contact-send"><i class="ti ti-send"></i> Send report</button>
 <div id="form-msg" class="form-msg"></div>
@@ -1084,9 +1088,13 @@ frObs.observe(frSteps)}
 
 // Contact form → Google Sheets + mailto
 const SHEET_URL='REDACTED_SHEET_V3';
+let lastSubmit=0;
 document.getElementById('contact-send').addEventListener('click',async function(){
 const btn=this;
 const msgEl=document.getElementById('form-msg');
+if(document.getElementById('cf-website').value){return}
+const now=Date.now();
+if(now-lastSubmit<60000){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Please wait before submitting again.';return}
 const name=document.getElementById('cf-name').value.trim();
 const phone=document.getElementById('cf-phone').value.trim();
 const type=document.getElementById('cf-type').value;
@@ -1107,6 +1115,7 @@ try{await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':
 const subject=encodeURIComponent('CyberNexus - New case: '+typeLabel);
 const body=encodeURIComponent('Name: '+name+'\nPhone/WhatsApp: '+phone+'\nRole: '+typeLabel+'\nFraud type: '+(fraud?fraudLabel:'Not specified')+'\n\nDescription:\n'+(desc||'(not provided)')+'\n');
 window.open('mailto:cyberrnexus@gmail.com?subject='+subject+'&body='+body,'_self');
+lastSubmit=Date.now();
 btn.classList.remove('sending');btn.innerHTML='<i class="ti ti-send"></i> Send report';
 msgEl.className='form-msg success';
 msgEl.innerHTML='<i class="ti ti-check"></i> '+(saved?'Report sent. We\'ll reach out within 24 hours.':'Email opened. Fill in the details and send it to us.');
