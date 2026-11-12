@@ -1094,7 +1094,7 @@ const btn=this;
 const msgEl=document.getElementById('form-msg');
 if(document.getElementById('cf-website').value){return}
 const now=Date.now();
-if(now-lastSubmit<60000){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Please wait before submitting again.';return}
+if(now-lastSubmit<60000){const secs=Math.ceil((60000-(now-lastSubmit))/1000);msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Please wait '+secs+'s before submitting again.';return}
 const name=document.getElementById('cf-name').value.trim();
 const phone=document.getElementById('cf-phone').value.trim();
 const type=document.getElementById('cf-type').value;
