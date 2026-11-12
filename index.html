@@ -1093,6 +1093,10 @@ const type=document.getElementById('cf-type').value;
 const fraud=document.getElementById('cf-fraud').value;
 const desc=document.getElementById('cf-desc').value.trim();
 if(!name||!phone||!type){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Name, phone and role are required.';return}
+const digits=phone.replace(/\D/g,'');
+if(digits.length!==10&&digits.length!==12){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Enter a valid 10-digit mobile number.';return}
+if(digits.length===10&&!/^[6-9]/.test(digits)){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Enter a valid 10-digit mobile number.';return}
+if(digits.length===12&&!/^91[6-9]/.test(digits)){msgEl.className='form-msg error';msgEl.innerHTML='<i class="ti ti-alert-triangle"></i> Enter a valid 10-digit mobile number.';return}
 const typeLabel=document.querySelector('#cf-type option:checked').textContent;
 const fraudLabel=document.querySelector('#cf-fraud option:checked').textContent;
 btn.classList.add('sending');btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Sending...';
