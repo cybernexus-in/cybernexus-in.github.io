@@ -145,6 +145,16 @@ section{padding:100px 0}
 .stat-live::after{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--hacker);box-shadow:0 0 8px var(--hacker);margin-left:8px;vertical-align:middle;animation:pulse 2s infinite}
 .db-stat .stat-live-dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--hacker);box-shadow:0 0 6px var(--hacker);margin-left:4px;vertical-align:middle;animation:pulse 2s infinite}
 
+/* CASE COUNTER */
+.case-counter{padding:40px 0 20px}
+.counter-strip{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
+.counter-item{text-align:center;position:relative}
+.counter-num{font-family:var(--mono);font-size:42px;font-weight:700;color:var(--hacker);line-height:1;text-shadow:0 0 20px rgba(0,255,65,.4);transition:color .3s}
+.counter-label{font-size:11px;color:var(--text2);margin-top:8px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px}
+.counter-item+.counter-item::before{content:'';position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:1px;height:36px;background:rgba(0,255,65,.15)}
+.counter-src{text-align:center;margin-top:12px;font-size:11px;color:var(--text3);font-family:var(--mono)}
+@media(max-width:640px){.counter-strip{gap:32px}.counter-num{font-size:34px}.counter-item+.counter-item::before{left:-16px;height:28px}}
+
 /* DATABASES */
 .db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .db-card{background:rgba(0,10,0,.5);border:1px solid rgba(0,255,65,.1);border-radius:var(--radius);padding:28px;backdrop-filter:blur(10px);transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
@@ -416,6 +426,22 @@ section{padding:60px 0}
 <div class="stat-label">Malware analyzed</div>
 </div>
 </div>
+</div>
+</section>
+
+<section class="case-counter" id="case-counter">
+<div class="container">
+<div class="counter-strip">
+<div class="counter-item reveal">
+<div class="counter-num" id="cnt-reported">47</div>
+<div class="counter-label">Cases reported</div>
+</div>
+<div class="counter-item reveal">
+<div class="counter-num" id="cnt-investigated">40</div>
+<div class="counter-label">Investigations completed</div>
+</div>
+</div>
+<div class="counter-src">via cybernexus portal</div>
 </div>
 </section>
 
@@ -1243,6 +1269,19 @@ badges[c.idx].innerHTML='<div class="live-badge-dot" style="background:var(--tex
 badges[c.idx].style.color='var(--text3)';badges[c.idx].style.borderColor='rgba(255,255,255,.1)';
 badges[c.idx].style.background='var(--surface2)'}
 else{badges[c.idx].innerHTML='<div class="live-badge-dot"></div> LIVE'}}})}
+})();
+
+// Case counter
+(function(){
+const _dc=s=>atob(s.split('').reverse().join(''));
+const COUNTER_URL=_dc('jVGel9ydwpmUfNjTxVDO1AlbPNFcDRETfBzRwllQI1yd5ZjMzNXSsdUOzBXUYVFUuNXQ3xGd3dHVVJkV2hETLZzdtgjcrJVW4J2Y5Z2SB9ycvM3byNWYt9SbvNmLlx2Zv92ZuQHcpJ3Yz9yL6MHc0RHa');
+fetch(COUNTER_URL).then(function(r){return r.json()}).then(function(d){
+if(d.reported>0){
+var rEl=document.getElementById('cnt-reported');
+var iEl=document.getElementById('cnt-investigated');
+rEl.textContent=d.reported;
+iEl.textContent=d.investigated}
+}).catch(function(){});
 })();
 </script>
 
